@@ -1,0 +1,232 @@
+{% extends 'ms_admin/base.html' %} {% block title %}Carousel{% endblock %} {%
+block content %}
+
+<section>
+  <h5 class="text-primary">Carousel, Why Rangaatma & About Us</h5>
+
+  <!-- Carousel Section -->
+  <div class="table-responsive mb-5">
+    <h6 class="text-secondary fw-bold">Carousel</h6>
+    <table class="table table-bordered align-middle">
+      <thead class="table-light">
+        <tr>
+          <th>Image</th>
+          <th>Title</th>
+          <th>Subtitle</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in carousel_data %}
+        <tr>
+          <td>
+            <img src="{{ url_for('static', filename=row.img) }}" height="50" />
+          </td>
+          <td>{{ row.title }}</td>
+          <td>{{ row.subtitle }}</td>
+          <td>
+            <button
+              class="btn btn-sm bg-warning text-dark"
+              data-bs-toggle="modal"
+              data-bs-target="#editCarousel{{ row.id }}"
+            >
+              <i class="bi bi-pencil-square"></i>
+            </button>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Why Rangaatma Section -->
+  <div class="table-responsive mb-5">
+    <h6 class="text-secondary fw-bold">Why Rangaatma</h6>
+    <table class="table table-bordered align-middle">
+      <thead class="table-light">
+        <tr>
+          <th>Image</th>
+          <th>Description</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in why_data %}
+        <tr>
+          <td>
+            <img src="{{ url_for('static', filename=row.img) }}" height="50" />
+          </td>
+          <td>{{ row.description }}</td>
+          <td>
+            <button
+              class="btn btn-sm bg-warning text-dark"
+              data-bs-toggle="modal"
+              data-bs-target="#editWhy{{ row.id }}"
+            >
+              <i class="bi bi-pencil-square"></i>
+            </button>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- About Us Section -->
+  <div class="table-responsive">
+    <h6 class="text-secondary fw-bold">About Us</h6>
+    <table class="table table-bordered align-middle">
+      <thead class="table-light">
+        <tr>
+          <th>Image</th>
+          <th>Description</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in about_data %}
+        <tr>
+          <td>
+            <img src="{{ url_for('static', filename=row.img) }}" height="50" />
+          </td>
+          <td>{{ row.description }}</td>
+          <td>
+            <button
+              class="btn btn-sm bg-warning text-dark"
+              data-bs-toggle="modal"
+              data-bs-target="#editAbout{{ row.id }}"
+            >
+              <i class="bi bi-pencil-square"></i>
+            </button>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- Carousel Edit Modals -->
+{% for row in carousel_data %}
+<div class="modal fade" id="editCarousel{{ row.id }}" tabindex="-1">
+  <div class="modal-dialog">
+    <form
+      enctype="multipart/form-data"
+      class="modal-content"
+      method="post"
+      action="{{ url_for('update_carousel', id=row.id) }}"
+    >
+      <div class="modal-header">
+        <h5 class="modal-title">Edit Carousel</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <input
+          type="text"
+          name="title"
+          value="{{ row.title }}"
+          class="form-control mb-2"
+          placeholder="Title"
+        />
+        <input
+          type="text"
+          name="subtitle"
+          value="{{ row.subtitle }}"
+          class="form-control mb-2"
+          placeholder="Subtitle"
+        />
+        <input
+          type="file"
+          name="img"
+          value="{{ row.img }}"
+          class="form-control"
+          placeholder="Image URL"
+        />
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" type="submit">Save</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endfor %}
+
+<!-- Why Rangaatma Edit Modals -->
+{% for row in why_data %}
+<div class="modal fade" id="editWhy{{ row.id }}" tabindex="-1">
+  <div class="modal-dialog">
+    <form
+      enctype="multipart/form-data"
+      class="modal-content"
+      method="post"
+      action="{{ url_for('update_why', id=row.id) }}"
+    >
+      <div class="modal-header">
+        <h5 class="modal-title">Edit Why Rangaatma</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <textarea name="description" class="form-control mb-2">
+{{ row.description }}</textarea
+        >
+        <input
+          type="file"
+          name="img"
+          value="{{ row.img }}"
+          class="form-control"
+          placeholder="Image URL"
+        />
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" type="submit">Save</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endfor %}
+
+<!-- About Us Edit Modals -->
+{% for row in about_data %}
+<div class="modal fade" id="editAbout{{ row.id }}" tabindex="-1">
+  <div class="modal-dialog">
+    <form
+      enctype="multipart/form-data"
+      class="modal-content"
+      method="post"
+      action="{{ url_for('update_about', id=row.id) }}"
+    >
+      <div class="modal-header">
+        <h5 class="modal-title">Edit About Us</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <textarea name="description" class="form-control mb-2">
+{{ row.description }}</textarea
+        >
+        <input
+          type="file"
+          name="img"
+          value="{{ row.img }}"
+          class="form-control"
+          placeholder="Image URL"
+        />
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" type="submit">Save</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endfor %} {% endblock %}

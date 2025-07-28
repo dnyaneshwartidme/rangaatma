@@ -1,0 +1,108 @@
+{% extends 'ms_admin/base.html' %} {% block title %}Testimonials{% endblock %}
+{% block content %}
+
+<section class="container mt-4">
+  <h4 class="text-primary mb-3">Testimonials</h4>
+
+  <!-- ✅ Responsive wrapper -->
+  <div class="table-responsive">
+    <table class="table table-bordered align-middle">
+      <thead class="table-light">
+        <tr>
+          <th>Sr.No</th>
+          <th>Name</th>
+          <th>Profession</th>
+          <th>Description</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in testimonial_data %}
+        <tr>
+          <td>{{ loop.index }}</td>
+          <td>{{ row.title }}</td>
+          <td>{{ row.subtitle }}</td>
+          <td
+            style="
+              max-width: 300px;
+              white-space: normal;
+              word-break: break-word;
+            "
+          >
+            {{ row.description }}
+          </td>
+          <td>
+            <a
+              href="#"
+              data-bs-toggle="modal"
+              data-bs-target="#editModal{{ row.id }}"
+              class="btn btn-sm px-2 py-1"
+              style="background-color: yellow"
+            >
+              ✏️
+            </a>
+          </td>
+        </tr>
+
+        <!-- ✅ Edit Modal -->
+        <div
+          class="modal fade"
+          id="editModal{{ row.id }}"
+          tabindex="-1"
+          aria-labelledby="editModalLabel{{ row.id }}"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog modal-dialog-centered">
+            <form
+              action="{{ url_for('update_testimonial', id=row.id) }}"
+              method="POST"
+            >
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Edit Testimonial</h5>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                  ></button>
+                </div>
+                <div class="modal-body">
+                  <div class="mb-2">
+                    <label class="form-label">Name</label>
+                    <input
+                      type="text"
+                      name="title"
+                      value="{{ row.title }}"
+                      class="form-control"
+                    />
+                  </div>
+                  <div class="mb-2">
+                    <label class="form-label">Profession</label>
+                    <input
+                      type="text"
+                      name="subtitle"
+                      value="{{ row.subtitle }}"
+                      class="form-control"
+                    />
+                  </div>
+                  <div class="mb-2">
+                    <label class="form-label">Description</label>
+                    <textarea name="description" class="form-control" rows="3">
+{{ row.description }}</textarea
+                    >
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="submit" class="btn btn-primary">Update</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+
+{% endblock %}

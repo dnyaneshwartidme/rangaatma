@@ -1,0 +1,45 @@
+{% extends 'base.html' %} {% block title %} Home {% endblock title %} {% block
+body %}
+
+<section>
+  <!-- Hero Start -->
+  <div
+    class="container-fluid bg-primary py-5 bg-hero"
+    style="margin-bottom: 50px"
+  >
+    <div class="container py-5">
+      <div class="row justify-content-start">
+        <div class="col-lg-8 text-center text-lg-start">
+          <h1 class="display-1 text-blue">Founder's Desk</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Hero End -->
+</section>
+<section>
+  <div class="container">
+    <h2 class="message-title mb-4">Founder's Desk</h2>
+
+    <div class="message-card">
+      <!-- Floating Image -->
+      <img
+        src="{{ url_for('static', filename=founder.img1) }}"
+        alt="President"
+        class="message-img-floating"
+      />
+
+      <!-- Text Content -->
+      <div class="col-md-9 message-text">
+        <h6>{{ founder.position }}</h6>
+        {% for paragraph in founder.description.split('\n') %}
+        <p>{{ paragraph.strip() }}</p>
+        {% endfor %}
+
+        <p class="president-info">{{ founder.title }}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock body %}

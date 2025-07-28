@@ -1,0 +1,134 @@
+{% extends 'ms_admin/base.html' %} {% block title %}Capabilities{% endblock %}
+{% block content %}
+<h4 class="text-primary mb-3">Capabilities</h4>
+
+<!-- Add Button -->
+<div class="text-end mb-3">
+  <button
+    class="btn btn-success"
+    data-bs-toggle="modal"
+    data-bs-target="#addModal"
+  >
+    + Add
+  </button>
+</div>
+
+<!-- Add Modal -->
+<div class="modal fade" id="addModal" tabindex="-1">
+  <div class="modal-dialog">
+    <form
+      class="modal-content"
+      method="POST"
+      action="{{ url_for('add_capability') }}"
+    >
+      <div class="modal-header">
+        <h5 class="modal-title">Add Capability</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <input
+          type="text"
+          class="form-control"
+          name="title"
+          placeholder="Enter Title"
+          required
+        />
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-success">Add</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Cancel
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Table -->
+<div class="table-responsive">
+  <table class="table table-bordered table-hover align-middle">
+    <thead class="table-primary">
+      <tr>
+        <th style="width: 10%">Sr. No.</th>
+        <th>Title</th>
+        <th style="width: 20%">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in items %}
+      <tr>
+        <td>{{ loop.index }}</td>
+        <td>{{ item.title }}</td>
+        <td>
+          <button
+            class="btn btn-warning btn-sm me-2"
+            data-bs-toggle="modal"
+            data-bs-target="#editModal{{ item.id }}"
+          >
+            <i class="bi bi-pencil-fill"></i>
+          </button>
+          <form
+            action="{{ url_for('delete_capability', id=item.id) }}"
+            method="POST"
+            style="display: inline-block"
+          >
+            <button
+              class="btn btn-danger btn-sm"
+              onclick="return confirm('Delete?')"
+            >
+              <i class="bi bi-trash-fill"></i>
+            </button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<!-- Edit Modals -->
+{% for item in items %}
+<div class="modal fade" id="editModal{{ item.id }}" tabindex="-1">
+  <div class="modal-dialog">
+    <form
+      class="modal-content"
+      method="POST"
+      action="{{ url_for('update_capability', id=item.id) }}"
+    >
+      <div class="modal-header">
+        <h5 class="modal-title">Edit Capability</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <input
+          type="text"
+          class="form-control"
+          name="title"
+          value="{{ item.title }}"
+          required
+        />
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-success">Update</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Cancel
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endfor %} {% endblock %} {% block scripts %}
+<!-- Bootstrap Icons -->
+<link
+  href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"
+  rel="stylesheet"
+/>
+{% endblock %}

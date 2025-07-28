@@ -1,0 +1,154 @@
+{% extends 'ms_admin/base.html' %} {% block title %}Contact Info{% endblock %}
+{% block content %}
+
+<h3 class="text-primary">Contact Info</h3>
+
+<div class="container mt-4">
+  <div class="row">
+    <!-- Table 1: Address, Email, Phone -->
+    <div class="col-lg-6 col-md-12 mb-4">
+      <h4 class="pb-2">Address & Contact</h4>
+      <div class="table-responsive">
+        <table class="table table-bordered">
+          <tr>
+            <th>Address</th>
+            <td>{{ data.address }}</td>
+          </tr>
+          <tr>
+            <th>Email</th>
+            <td>{{ data.email }}</td>
+          </tr>
+          <tr>
+            <th>Phone</th>
+            <td>{{ data.phone }}</td>
+          </tr>
+          <tr>
+            <td colspan="2" class="text-end">
+              <button
+                class="btn btn-secondary"
+                data-bs-toggle="modal"
+                data-bs-target="#editContactModal"
+              >
+                Edit Contact
+              </button>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- Table 2: Location -->
+    <div class="col-lg-6 col-md-12 mb-4">
+      <h4 class="pb-2">Location</h4>
+      <div class="table-responsive">
+        <table class="table table-bordered">
+          <tr>
+            <th>Location Link</th>
+            <td>
+              <a href="{{ data.location }}" target="_blank"
+                >{{ data.location }}</a
+              >
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" class="text-end">
+              <button
+                class="btn btn-secondary"
+                data-bs-toggle="modal"
+                data-bs-target="#editLocationModal"
+              >
+                Edit Location
+              </button>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Contact Modal -->
+<div class="modal fade" id="editContactModal" tabindex="-1">
+  <div class="modal-dialog">
+    <form
+      method="POST"
+      action="{{ url_for('update_contact') }}"
+      class="modal-content"
+    >
+      <div class="modal-header">
+        <h5 class="modal-title">Edit Contact Info</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label>Address</label>
+          <textarea class="form-control" name="address" rows="2">
+{{ data.address }}</textarea
+          >
+        </div>
+        <div class="mb-3">
+          <label>Email</label>
+          <textarea class="form-control" name="email" rows="2">
+{{ data.email }}</textarea
+          >
+        </div>
+        <div class="mb-3">
+          <label>Phone</label>
+          <textarea class="form-control" name="phone" rows="2">
+{{ data.phone }}</textarea
+          >
+        </div>
+        <input type="hidden" name="location" value="{{ data.location }}" />
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-success">Update</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Cancel
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Edit Location Modal -->
+<div class="modal fade" id="editLocationModal" tabindex="-1">
+  <div class="modal-dialog">
+    <form
+      method="POST"
+      action="{{ url_for('update_contact') }}"
+      class="modal-content"
+    >
+      <div class="modal-header">
+        <h5 class="modal-title">Edit Location Link</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label>Location Link</label>
+          <textarea class="form-control" name="location" rows="2">
+{{ data.location }}</textarea
+          >
+        </div>
+        <input type="hidden" name="address" value="{{ data.address }}" />
+        <input type="hidden" name="email" value="{{ data.email }}" />
+        <input type="hidden" name="phone" value="{{ data.phone }}" />
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-success">Update</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Cancel
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+{% endblock %}

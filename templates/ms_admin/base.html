@@ -1,0 +1,521 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin-{% block title %} {% endblock %}</title>
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- Bootstrap Icons -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        margin-top: 56px;
+      }
+
+      .sidebar {
+        width: 210px;
+        height: 100vh;
+        position: fixed;
+        top: 56px;
+        left: 0;
+        background-color: #001f3f;
+        padding-top: 20px;
+        transition: all 0.3s;
+        z-index: 1000;
+      }
+
+      .sidebar a {
+        color: #fff;
+        padding: 12px 20px;
+        display: block;
+        text-decoration: none;
+      }
+
+      .sidebar a:hover {
+        background-color: #003366;
+      }
+
+      .sidebar i {
+        margin-right: 10px;
+        margin-left: 20px;
+      }
+
+      .main-content {
+        padding: 20px;
+        transition: all 0.3s;
+      }
+
+      body:not(.sidebar-collapsed) .main-content {
+        margin-left: 220px;
+      }
+
+      body.sidebar-collapsed .main-content {
+        margin-left: 0;
+      }
+
+      body.sidebar-collapsed .sidebar {
+        transform: translateX(-100%);
+      }
+
+      .sidebar {
+        transition: transform 0.3s ease;
+      }
+
+      .tonggleStyle {
+        border: none !important;
+        outline: none !important;
+        box-shadow: none !important;
+        background-color: transparent;
+        color: white;
+      }
+
+      .tonggleStyle:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+        border-radius: 4px;
+      }
+
+      /* Sidebar Submenu */
+      .submenu {
+        padding-left: 30px;
+        font-size: 14px;
+        color: #ccc;
+      }
+
+      .submenu a {
+        padding: 6px 20px;
+        color: #ccc;
+      }
+
+      .submenu a:hover {
+        background-color: #004080;
+      }
+
+      @media (max-width: 991px) {
+        .navbar .laptop-view {
+          display: none !important;
+        }
+        .navbar .mobile-view {
+          display: flex !important;
+          width: 100%;
+          justify-content: space-between;
+          align-items: center;
+        }
+        body:not(.sidebar-collapsed) .main-content {
+          margin-left: 100px;
+        }
+      }
+
+      @media (min-width: 992px) {
+        .navbar .laptop-view {
+          display: flex !important;
+        }
+        .navbar .mobile-view {
+          display: none !important;
+        }
+      }
+      .submenu.collapse {
+        display: none;
+      }
+      .submenu.collapse.show {
+        display: block;
+      }
+    </style>
+    <style>
+      .sidebar a {
+        display: block;
+        color: #fff;
+        padding: 10px;
+        text-decoration: none;
+        margin-bottom: 5px;
+        border-radius: 5px;
+      }
+
+      .submenu a {
+        /* padding-left: 10px; */
+        background: #2c3c4c;
+      }
+    </style>
+    <style>
+      .sidebar {
+        height: 100vh;
+        overflow-y: auto;
+        position: fixed;
+      }
+      /* Enable vertical scroll for sidebar if content overflows */
+      .sidebar {
+        overflow-y: auto !important;
+        padding-bottom: 100px; /* ensures bottom items are reachable */
+      }
+      @media (min-width: 768px) {
+        .sidebar {
+          overflow-y: auto !important;
+          padding-bottom: 100px;
+        }
+      }
+      /* Hide scrollbar while keeping scroll functionality */
+      .sidebar {
+        scrollbar-width: none; /* Firefox */
+        -ms-overflow-style: none; /* IE 10+ */
+      }
+
+      .sidebar::-webkit-scrollbar {
+        /* Chrome, Safari */
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header/Navbar -->
+    <header class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container-fluid">
+        <!-- Desktop/Tab View -->
+        <div
+          class="laptop-view w-100 justify-content-between align-items-center"
+        >
+          <div class="d-flex align-items-center">
+            <a class="navbar-brand fw-bold" href="#">Admin Panel</a>
+            <!-- Desktop/Tab View Toggle -->
+            <button class="btn ms-2 tonggleStyle" id="sidebarToggleDesktop">
+              <i class="bi bi-list fs-4"></i>
+            </button>
+          </div>
+          <ul class="navbar-nav mb-2 mb-lg-0">
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                id="userDropdown"
+                role="button"
+                data-bs-toggle="dropdown"
+              >
+                <i class="bi bi-person-circle fs-5 position-relative">
+                  {% if unread_count > 0 %}
+                  <span
+                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                    style="font-size: 0.8rem"
+                  >
+                    {{ unread_count }}
+                  </span>
+                  {% endif %}
+                </i>
+              </a>
+              <ul class="dropdown-menu dropdown-menu-end">
+                <li>
+                  <a
+                    class="dropdown-item d-flex justify-content-between align-items-center"
+                    href="{{ url_for('notification_data') }}"
+                  >
+                    Notifications
+                    <!-- ✅ Badge in Menu Item -->
+                    {% if unread_count > 0 %}
+                    <span class="badge bg-danger rounded-pill"
+                      >{{ unread_count }}</span
+                    >
+                    {% endif %}
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="{{ url_for('password') }}"
+                    >Change Password</a
+                  >
+                </li>
+                <li>
+                  <a class="dropdown-item" href="{{ url_for('email_config') }}"
+                    >Change Gmail</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="{{ url_for('delete_unused_photos') }}"
+                    >Unused Photo Delete</a
+                  >
+                </li>
+                <li><hr class="dropdown-divider" /></li>
+                <li>
+                  <a
+                    class="dropdown-item text-danger"
+                    href="{{ url_for('logout') }}"
+                    >Logout</a
+                  >
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Mobile View -->
+        <div
+          class="mobile-view d-flex justify-content-between align-items-center"
+        >
+          <!-- Mobile View Toggle -->
+          <button class="btn tonggleStyle" id="sidebarToggleMobile">
+            <i class="bi bi-list fs-4"></i>
+          </button>
+
+          <a class="navbar-brand fw-bold" href="#">Admin Panel</a>
+
+          <div class="dropdown position-relative me-2">
+            <a
+              class="nav-link dropdown-toggle text-white position-relative"
+              href="#"
+              id="userDropdownMobile"
+              role="button"
+              data-bs-toggle="dropdown"
+            >
+              <i class="bi bi-person-circle fs-5">
+                {% if unread_count > 0 %}
+                <span
+                  class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                  style="font-size: 0.7rem"
+                >
+                  {{ unread_count }}
+                </span>
+                {% endif %}
+              </i>
+            </a>
+
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li>
+                <a
+                  class="dropdown-item"
+                  href="{{ url_for('notification_data') }}"
+                >
+                  Notifications
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="{{ url_for('password') }}">
+                  Change Password
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="{{ url_for('email_config') }}">
+                  Change Gmail
+                </a>
+              </li>
+              <li>
+                <a
+                  class="dropdown-item"
+                  href="{{ url_for('delete_unused_photos') }}"
+                >
+                  Unused Photo Delete
+                </a>
+              </li>
+              <li><hr class="dropdown-divider" /></li>
+              <li>
+                <a
+                  class="dropdown-item text-danger"
+                  href="{{ url_for('logout') }}"
+                >
+                  Logout
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <a
+        data-bs-toggle="collapse"
+        href="#submenu1"
+        role="button"
+        class="has-submenu d-flex justify-content-between align-items-center"
+      >
+        <span><i class="bi bi-gear"></i> Home</span>
+        <i
+          class="bi bi-chevron-down toggle-arrow"
+          data-bs-target="#submenu1"
+        ></i>
+      </a>
+      <div class="collapse submenu" id="submenu1" data-bs-parent=".sidebar">
+        <a href="{{ url_for('our_product') }}"
+          ><i class="bi bi-chevron-right"></i> Our Product</a
+        >
+        <a href="{{ url_for('we_serve') }}"
+          ><i class="bi bi-chevron-right"></i> We Serve</a
+        >
+        <a href="{{ url_for('our_clients') }}"
+          ><i class="bi bi-chevron-right"></i> Our Clint</a
+        >
+        <a href="{{ url_for('testimonials') }}"
+          ><i class="bi bi-chevron-right"></i> Testimonials</a
+        >
+        <a href="{{ url_for('c_r_about') }}"
+          ><i class="bi bi-chevron-right"></i> Carousel & why Rangaatma & About
+          Us</a
+        >
+      </div>
+
+      <a
+        data-bs-toggle="collapse"
+        href="#submenu2"
+        role="button"
+        class="has-submenu d-flex justify-content-between align-items-center"
+      >
+        <span><i class="bi bi-gear"></i> About</span>
+        <i
+          class="bi bi-chevron-down toggle-arrow"
+          data-bs-target="#submenu2"
+        ></i>
+      </a>
+      <div class="collapse submenu" id="submenu2" data-bs-parent=".sidebar">
+        <a href="{{ url_for('fetch_about_us') }}"
+          ><i class="bi bi-chevron-right"></i> About Us</a
+        >
+        <a href="{{ url_for('fetch_founder') }}"
+          ><i class="bi bi-chevron-right"></i> Founder Desk</a
+        >
+        <a href="{{ url_for('fetch_co_founder') }}"
+          ><i class="bi bi-chevron-right"></i> Co-Founder Desk</a
+        >
+      </div>
+
+      <a href="{{ url_for('fetch_product') }}"
+        ><i class="bi bi-gear"></i> Product</a
+      >
+      <a href="{{ url_for('fetch_materials_procure') }}"
+        ><i class="bi bi-gear"></i> Materials Procure</a
+      >
+
+      <a
+        data-bs-toggle="collapse"
+        href="#submenu3"
+        role="button"
+        class="has-submenu d-flex justify-content-between align-items-center"
+      >
+        <span><i class="bi bi-gear"></i> Facilities</span>
+        <i
+          class="bi bi-chevron-down toggle-arrow"
+          data-bs-target="#submenu3"
+        ></i>
+      </a>
+      <div class="collapse submenu" id="submenu3" data-bs-parent=".sidebar">
+        <a href="{{ url_for('manufacturing_facility') }}"
+          ><i class="bi bi-chevron-right"></i> Manufacturing Facility</a
+        >
+        <a href="{{ url_for('inspection_facility') }}"
+          ><i class="bi bi-chevron-right"></i> Inspection Facility</a
+        >
+      </div>
+
+      <a href="{{ url_for('fetch_why_rangaatma') }}"
+        ><i class="bi bi-gear"></i> Why Rangaatma</a
+      >
+      <a href="{{ url_for('fetch_achievements') }}"
+        ><i class="bi bi-gear"></i> Achievements</a
+      >
+      <a href="{{ url_for('fetch_gallery') }}"
+        ><i class="bi bi-gear"></i> Gallery</a
+      >
+      <a href="{{ url_for('fetch_contact') }}"
+        ><i class="bi bi-gear"></i> Contact Us</a
+      >
+      <a href="{{ url_for('fetch_capabilities') }}"
+        ><i class="bi bi-gear"></i> Capabilities</a
+      >
+      <a
+        data-bs-toggle="collapse"
+        href="#submenu4"
+        role="button"
+        class="has-submenu d-flex justify-content-between align-items-center"
+      >
+        <span><i class="bi bi-gear"></i> Career</span>
+        <i
+          class="bi bi-chevron-down toggle-arrow"
+          data-bs-target="#submenu3"
+        ></i>
+      </a>
+      <div class="collapse submenu" id="submenu4" data-bs-parent=".sidebar">
+        <a href="{{ url_for('we_are_hiring') }}"
+          ><i class="bi bi-chevron-right"></i> We Are Hiring</a
+        >
+        <a href="{{ url_for('company_culture') }}"
+          ><i class="bi bi-chevron-right"></i> Company's Culture</a
+        >
+      </div>
+      <a href="{{ url_for('fetch_footer') }}"
+        ><i class="bi bi-gear"></i> Footer</a
+      >
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">{% block content %}{% endblock %}</div>
+
+    <!-- JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      const body = document.body;
+      const desktopToggleBtn = document.getElementById("sidebarToggleDesktop");
+      const mobileToggleBtn = document.getElementById("sidebarToggleMobile");
+      let userToggled = false;
+
+      function applySidebarState() {
+        if (!userToggled) {
+          if (window.innerWidth < 992) {
+            body.classList.add("sidebar-collapsed");
+          } else {
+            body.classList.remove("sidebar-collapsed");
+          }
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        applySidebarState();
+
+        // 👉 Desktop toggle
+        desktopToggleBtn.addEventListener("click", function () {
+          body.classList.toggle("sidebar-collapsed");
+          userToggled = true;
+        });
+
+        // 👉 Mobile toggle
+        mobileToggleBtn.addEventListener("click", function () {
+          body.classList.toggle("sidebar-collapsed");
+          userToggled = true;
+        });
+
+        // 👉 Submenu toggle (optional)
+        document.querySelectorAll(".has-submenu").forEach((menu) => {
+          menu.addEventListener("click", (e) => {
+            e.preventDefault();
+            const nextSubmenu = menu.nextElementSibling;
+            if (nextSubmenu.classList.contains("collapse")) {
+              nextSubmenu.classList.toggle("show");
+            }
+          });
+        });
+      });
+
+      window.addEventListener("resize", applySidebarState);
+    </script>
+    <script>
+      document.querySelectorAll(".has-submenu").forEach((link) => {
+        const targetId = link.getAttribute("href");
+        const icon = link.querySelector(".toggle-arrow");
+        const submenu = document.querySelector(targetId);
+
+        submenu.addEventListener("show.bs.collapse", () => {
+          icon.classList.remove("bi-chevron-down");
+          icon.classList.add("bi-chevron-up");
+        });
+
+        submenu.addEventListener("hide.bs.collapse", () => {
+          icon.classList.remove("bi-chevron-up");
+          icon.classList.add("bi-chevron-down");
+        });
+      });
+    </script>
+  </body>
+</html>

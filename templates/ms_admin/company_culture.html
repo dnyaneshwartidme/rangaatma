@@ -1,0 +1,213 @@
+{% extends 'ms_admin/base.html' %} {% block title %}Company’s Culture{% endblock
+%} {% block content %}
+
+<h4 class="text-primary mb-3">Company’s Culture</h4>
+
+<!-- Top Description Section -->
+<form action="{{ url_for('update_top_bottom_description') }}" method="POST">
+  <input type="hidden" name="type" value="top" />
+  <div class="mb-3">
+    <label class="form-label">Top Description</label>
+    <textarea name="description" class="form-control" rows="4">
+{{ top_description }}</textarea
+    >
+  </div>
+  <button type="submit" class="btn btn-primary">Update</button>
+</form>
+
+<hr />
+
+<!-- Bottom Description Section -->
+<form action="{{ url_for('update_top_bottom_description') }}" method="POST">
+  <input type="hidden" name="type" value="bottom" />
+  <div class="mb-3">
+    <label class="form-label">Bottom Description</label>
+    <textarea name="description" class="form-control" rows="4">
+{{ bottom_description }}</textarea
+    >
+  </div>
+  <button type="submit" class="btn btn-primary">Update</button>
+</form>
+
+<hr />
+
+<!-- Culture Points Table -->
+<div class="d-flex justify-content-between align-items-center mt-4">
+  <h5 class="text-secondary">Culture Points</h5>
+  <div>
+    <label class="form-check-label me-2" for="toggleSort">Enable Sort</label>
+    <input class="form-check-input" type="checkbox" id="toggleSort" />
+    <button
+      class="btn btn-success btn-sm ms-3"
+      data-bs-toggle="modal"
+      data-bs-target="#addModal"
+    >
+      + Add
+    </button>
+  </div>
+</div>
+
+<div class="table-responsive mt-3">
+  <table class="table table-bordered">
+    <thead class="table-light">
+      <tr>
+        <th style="width: 5%">Sr.No</th>
+        <th>Title</th>
+        <th>Description</th>
+        <th style="width: 15%">Action</th>
+      </tr>
+    </thead>
+    <tbody id="sortable" style="cursor: default">
+      {% for row in data %}
+      <tr data-id="{{ row.id }}">
+        <td>{{ loop.index }}</td>
+        <td>{{ row.title }}</td>
+        <td>{{ row.description }}</td>
+        <td>
+          <button
+            class="btn btn-primary btn-sm"
+            data-bs-toggle="modal"
+            data-bs-target="#editModal{{ row.id }}"
+          >
+            Edit
+          </button>
+          <a
+            href="{{ url_for('delete_culture_point', id=row.id) }}"
+            class="btn btn-danger btn-sm"
+            onclick="return confirm('Delete this item?')"
+            >Delete</a
+          >
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<!-- Place all modals outside the table -->
+{% for row in data %}
+<div class="modal fade" id="editModal{{ row.id }}" tabindex="-1">
+  <div class="modal-dialog">
+    <form
+      action="{{ url_for('update_culture_point', id=row.id) }}"
+      method="POST"
+      class="modal-content"
+    >
+      <div class="modal-header">
+        <h5 class="modal-title">Edit Point</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label class="form-label">Title</label>
+          <input
+            type="text"
+            name="title"
+            value="{{ row.title }}"
+            class="form-control"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Description</label>
+          <textarea name="description" class="form-control" rows="3" required>
+{{ row.description }}</textarea
+          >
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">
+          Cancel
+        </button>
+        <button type="submit" class="btn btn-primary">Update</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endfor %}
+
+<!-- Add Modal -->
+<div class="modal fade" id="addModal" tabindex="-1">
+  <div class="modal-dialog">
+    <form
+      action="{{ url_for('add_culture_point') }}"
+      method="POST"
+      class="modal-content"
+    >
+      <div class="modal-header">
+        <h5 class="modal-title">Add Culture Point</h5>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label class="form-label">Title</label>
+          <input type="text" name="title" class="form-control" required />
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Description</label>
+          <textarea
+            name="description"
+            class="form-control"
+            rows="3"
+            required
+          ></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">
+          Cancel
+        </button>
+        <button type="submit" class="btn btn-success">Add</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+<script>
+  $("#sortable").sortable({
+    update: function (event, ui) {
+      var order = [];
+      $("#sortable tr").each(function () {
+        order.push($(this).data("id"));
+      });
+      $.post('{{ url_for("sort_culture_points") }}', { order: order });
+    },
+  });
+</script>
+<script>
+  let isSortingEnabled = false;
+
+  $("#sortable").sortable({
+    disabled: true,
+    update: function (event, ui) {
+      var order = [];
+      $("#sortable tr").each(function (index) {
+        order.push($(this).data("id"));
+        $(this)
+          .find("td:first")
+          .text(index + 1); // Sr. No. update
+      });
+      $.post('{{ url_for("sort_culture_points") }}', { order: order });
+    },
+  });
+
+  $("#toggleSort").on("change", function () {
+    isSortingEnabled = this.checked;
+    $("#sortable").sortable("option", "disabled", !isSortingEnabled);
+
+    // Cursor style
+    if (isSortingEnabled) {
+      $("#sortable tr").css("cursor", "move");
+    } else {
+      $("#sortable tr").css("cursor", "default");
+    }
+  });
+</script>
+
+{% endblock %}

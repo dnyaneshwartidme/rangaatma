@@ -1,0 +1,79 @@
+{% extends 'base.html' %} {% block title %} About {% endblock title %} {% block
+body %}
+
+<!-- Hero Start -->
+<div
+  class="container-fluid bg-primary py-5 bg-hero"
+  style="margin-bottom: 90px"
+>
+  <div class="container py-5">
+    <div class="row justify-content-start">
+      <div class="col-lg-8 text-center text-lg-start">
+        <h1 class="display-1 text-blue">Facilities</h1>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Hero End -->
+<section>
+  <div class="productbg">
+    <div class="bgOverly">
+      <div class="bgDividerLeft"></div>
+      <div class="bgDividerRight fade-up">
+        <div class="text-center mx-auto mb-5" style="max-width: 500px">
+          <h4 class="display-5">Manufacturing Facility</h4>
+          <div class="d-flex">
+            <hr class="w-40 mx-auto" style="opacity: 1" />
+            <img
+              src="../static/images/sgnew.png"
+              alt="VAPL"
+              style="max-width: 45px"
+            />
+            <hr class="w-40 mx-auto" style="opacity: 1" />
+          </div>
+        </div>
+        <div class="container">
+          <p style="margin: 0 50px">{{ intro.main_title }}</p>
+          <ul style="margin: 10px 50px 0px">
+            {% for item in items %}
+            <li>
+              {% if item.title %}
+              <b>{{ item.title }}: </b>
+              {% endif %} {{ item.description }}
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+      <div class="bgDividerLeftTwo fade-up">
+        <div class="text-center mx-auto mb-5" style="max-width: 500px">
+          <h4 class="display-5 mt-5">Inspection Facilities</h4>
+          <div class="d-flex">
+            <hr class="w-40 mx-auto" style="opacity: 1" />
+            <img
+              src="../static/images/sgnew.png"
+              alt="VAPL"
+              style="max-width: 45px"
+            />
+            <hr class="w-40 mx-auto" style="opacity: 1" />
+          </div>
+        </div>
+        <div class="container pb-2">
+          <p style="margin: 0 50px">{{ introtwo.main_title }}</p>
+          <ul style="margin: 10px 50px 0px">
+            {% for item in itemstwo %}
+            <li>
+              {% if item.title %}
+              <b>{{ item.title }}: </b>
+              {% endif %} {{ item.description }}
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+      <div class="bgDividerRightTwo"></div>
+    </div>
+  </div>
+</section>
+
+{% endblock body %}

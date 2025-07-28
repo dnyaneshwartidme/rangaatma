@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <title>Rangaatma-{% block title %} {% endblock %}</title>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <meta content="Free HTML Templates" name="keywords" />
+  <meta content="Free HTML Templates" name="description" />
+
+  <!-- Favicon -->
+  <link href="../static/images/toplogo.jpg" rel="icon" />
+
+  <!-- Google Web Fonts -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&family=Roboto:wght@400;700&display=swap"
+    rel="stylesheet" />
+
+  <!-- Icon Font Stylesheet -->
+  <link href="../static/css/all.min.css" rel="stylesheet" />
+  <link href="../static/css/bootstrap-icons.css" rel="stylesheet" />
+
+  <!-- Libraries Stylesheet -->
+  <link href="../static/css/owl.carousel.min.css" rel="stylesheet" />
+
+  <!-- Customized Bootstrap Stylesheet -->
+  <link href="../static/css/bootstrap.min.css" rel="stylesheet" />
+
+  <!-- Template Stylesheet -->
+  <link href="../static/css/style.css" rel="stylesheet" />
+
+  <!-- Link Swiper's CSS -->
+  <link rel="stylesheet" href="../static/css/swiper-bundle.min.css" />
+
+  <!-- Animate.css for animation -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+  <!-- Owl Carousel CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+
+</head>
+<!-- ✅ Flash messages block starts here -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <div style="position: fixed; top: 100px; right: 20px; z-index: 9999; width: 300px;">
+      {% for category, message in messages %}
+        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+          {{ message }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endwith %}
+<section>
+  <!-- Responsive Header -->
+  <header class="fixed-top bg-white shadow-sm animate__animated animate__fadeInDown">
+    <nav class="navbar navbar-expand-lg bg-white">
+      <div class="container">
+        <!-- Logo + Tagline -->
+        <a class="navbar-brand d-flex align-items-center logo-tagline" href="#">
+          <img src="../static/images/sgnew.png" alt="Logo" class="logo-img" />
+          <div class="logo-text">
+            <h5 class="mb-0 fw-bold text-dark">
+              RANGAATMA<br /><span class="text-primary">ENTERPRISES</span>
+            </h5>
+            <small class="text-muted logo-subtext">PRECISION: OUR FACTORY SIGNATURE</small>
+          </div>
+        </a>
+
+
+        <!-- Toggle button for mobile -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+          <!-- With this custom icon (Font Awesome) -->
+          <i class="fas fa-bars text-dark fs-3"></i>
+        </button>
+
+        <!-- Navigation Links -->
+        <div class="collapse navbar-collapse justify-content-end" id="mainNav">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link fw-bold {% if active_page == 'home' %}active{% endif %}" href="/">Home</a>
+            </li>
+            <li class="nav-item dropdown custom-dropdown-hover">
+              <a class="nav-link fw-bold dropdown-toggle {% if active_page in ['about', 'founder', 'co_founder'] %}active{% endif %}"
+                href="#" id="aboutDropdown" role="button">
+                About
+              </a>
+              <ul class="dropdown-menu soft-slide" aria-labelledby="aboutDropdown">
+                <li>
+                  <a class="nav-link {% if active_page == 'about' %}active{% endif %}" href="/about">About Us</a>
+                </li>
+                <li>
+                  <a class="nav-link {% if active_page == 'founder' %}active{% endif %}" href="/founder">Founder</a>
+                </li>
+                <li>
+                  <a class="nav-link {% if active_page == 'co_founder' %}active{% endif %}"
+                    href="/co_founder">Co-Founder</a>
+                </li>
+              </ul>
+            </li>
+
+
+
+
+
+            <li class="nav-item">
+              <a class="nav-link fw-bold {% if active_page == 'product' %}active{% endif %}"
+                href="/product">Products</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link fw-bold {% if active_page == 'materials_procure' %}active{% endif %}"
+                href="/materials_procure">Materials Procure</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link fw-bold {% if active_page == 'facilities' %}active{% endif %}"
+                href="/facilities">Facilities</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link fw-bold {% if active_page == 'why_rangaatma' %}active{% endif %}"
+                href="/why_rangaatma">Why Rangaatma</a>
+            </li>
+            <!-- <li class="nav-item">
+              <a class="nav-link fw-bold {% if active_page == 'achievements' %}active{% endif %}"
+                href="/achievements">Achievements</a>
+            </li> -->
+            <li class="nav-item">
+              <a class="nav-link fw-bold {% if active_page == 'gallery' %}active{% endif %}" href="/gallery">Gallery</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link fw-bold {% if active_page == 'contact' %}active{% endif %}" href="/contact">Contact</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+</section>
+
+<body>
+  {% block body %} {% endblock body %}
+  <section>
+    <!-- Stylish Footer Start -->
+    <footer class="footer-section">
+      <div class="footer-overlay">
+        <div class="container py-2">
+          <div class="row text-white">
+            <!-- Brand Info -->
+            <div class="col-md-4 mb-4">
+              <!-- <h4 class="footer-brand mb-3"> Rangaatma Enterprises</h4> -->
+              <h4 class="footer-brand mb-3"> रंगात्मा एंटरप्राइजेस</h4>
+              <p class="small">
+                {% for item in footer_data if item.type == 'text' %}
+                {{ item.title.replace('\n', '<br>') | safe }}
+                {% endfor %}
+              </p>
+
+
+              <!-- Contact Section -->
+              {% for item in footer_data if item.type == 'contact' %}
+              <p><i class="fas fa-map-marker-alt me-2"></i> {{ item.address.replace('\n', '<br>') | safe }}</p>
+              <p><i class="fas fa-phone me-2"></i> {{ item.phone }}</p>
+              <p><i class="fas fa-envelope me-2"></i>
+                {{ item.email }}</a>
+              </p>
+              {% endfor %}
+
+              <!-- Social Icons -->
+              <div class="social-icons mt-3">
+                {% for item in footer_data if item.type == 'all_icon' and item.link != '-'  %}
+                <a href="{{ item.link }}"><i class="{{ item.icon }}"></i></a>
+                {% endfor %}
+              </div>
+            </div>
+
+
+            <!-- Services Links -->
+            <div class="col-md-2 mb-4">
+              <h5 class="footer-title position-relative mb-4 text-white">
+                Quick Links
+              </h5>
+              <!-- Quick Links -->
+              <ul class="footer-links list-unstyled">
+                {% for item in footer_data if item.type == 'quick_links' and item.link != '-' %}
+                <li><a href="{{ item.link }}"><i class="fas fa-angle-right me-2 text-danger"></i>{{ item.title }}</a>
+                </li>
+                {% endfor %}
+              </ul>
+            </div>
+
+            <!-- Useful Links -->
+            <div class="col-md-2 mb-4">
+              <h5 class="footer-title position-relative mb-4 text-white">
+                Our Services
+              </h5>
+              <!-- Our Services -->
+              <ul class="footer-links list-unstyled">
+                {% for item in footer_data if item.type == 'our_services' and item.link != '-' %}
+                <li><a href="{{ item.link }}"><i class="fas fa-angle-right me-2 text-danger"></i>{{ item.title }}</a>
+                </li>
+                {% endfor %}
+              </ul>
+            </div>
+
+
+            <!-- Location Section -->
+            <div class="col-md-4 mb-4">
+              <h5 class="footer-title position-relative mb-4 text-white">Location</h5>
+              <div class="map-responsive" style="width: 100%; height: 230px;">
+                <iframe src="{{ contact_info.location }}" width="100%" height="100%"
+                  style="border:0; border-radius: 10px;" allowfullscreen="" loading="lazy"
+                  referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+              </div>
+            </div>
+
+
+            <hr class="text-white my-4" />
+
+            <p class="text-center text-white-50 small mb-0">
+              &copy; 2025 Rangaatma Enterprises. All rights reserved. Created by <a href="">Dnyaneshwar Tidme</a>
+            </p>
+          </div>
+        </div>
+    </footer>
+    <!-- Stylish Footer End -->
+
+    <!-- Font Awesome (required for icons) -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+  </section>
+  <!-- Back to Top -->
+  <a href="#" class="btn btn-lg btn-secondary btn-lg-square rounded-circle back-to-top"><i
+      class="bi bi-arrow-up"></i></a>
+  <!-- JavaScript Libraries -->
+  <script src="../static/js/jquery-3.4.1.min.js"></script>
+  <!-- <script src="../static/js/bootstrap.bundle.min.js"></script> -->
+  <script src="../static/js/easing.min.js"></script>
+  <script src="../static/js/waypoints.min.js"></script>
+  <script src="../static/js/owl.carousel.min.js"></script>
+  <!-- Swiper JS -->
+  <script src="../static/js/swiper-bundle.min.js"></script>
+  <!-- Template Javascript -->
+  <script src="../static/js/main.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const faders = document.querySelectorAll(".fade-up");
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+          } else {
+            entry.target.classList.remove("visible");
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+
+    faders.forEach((el) => observer.observe(el));
+  </script>
+
+<script>
+  setTimeout(() => {
+    const alerts = document.querySelectorAll('.alert');
+    alerts.forEach(alert => {
+      alert.classList.remove('show');
+      alert.classList.add('fade');
+    });
+  }, 8000);
+</script>
+
+</body>
+
+</html>

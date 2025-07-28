@@ -1,0 +1,239 @@
+<style>
+  body {
+    margin-top: 56px;
+  }
+
+  .sidebar {
+    width: 210px;
+    height: 100vh;
+    position: fixed;
+    top: 56px;
+    left: 0;
+    background-color: #001f3f;
+    padding-top: 20px;
+    transition: all 0.3s;
+    z-index: 1000;
+  }
+
+  .sidebar a {
+    color: #fff;
+    padding: 12px 20px;
+    display: block;
+    text-decoration: none;
+  }
+
+  .sidebar a:hover {
+    background-color: #003366;
+  }
+
+  .sidebar i {
+    margin-right: 10px;
+  }
+
+  .main-content {
+    padding: 20px;
+    transition: all 0.3s;
+  }
+
+  body:not(.sidebar-collapsed) .main-content {
+    margin-left: 220px;
+  }
+
+  body.sidebar-collapsed .main-content {
+    margin-left: 0;
+  }
+
+  body.sidebar-collapsed .sidebar {
+    transform: translateX(-100%);
+  }
+
+  .sidebar {
+    transition: transform 0.3s ease;
+  }
+
+  .tonggleStyle {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    background-color: transparent;
+    color: white;
+  }
+
+  .tonggleStyle:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+  }
+
+  /* Sidebar Submenu */
+  .submenu {
+    padding-left: 30px;
+    font-size: 14px;
+    color: #ccc;
+  }
+
+  .submenu a {
+    padding: 6px 20px;
+    color: #ccc;
+  }
+
+  .submenu a:hover {
+    background-color: #004080;
+  }
+
+  @media (max-width: 991px) {
+    .navbar .laptop-view {
+      display: none !important;
+    }
+    .navbar .mobile-view {
+      display: flex !important;
+      width: 100%;
+      justify-content: space-between;
+      align-items: center;
+    }
+    body:not(.sidebar-collapsed) .main-content {
+      margin-left: 100px;
+    }
+  }
+
+  @media (min-width: 992px) {
+    .navbar .laptop-view {
+      display: flex !important;
+    }
+    .navbar .mobile-view {
+      display: none !important;
+    }
+  }
+  .submenu.collapse {
+    display: none;
+  }
+  .submenu.collapse.show {
+    display: block;
+  }
+</style>
+
+<!-- Header/Navbar -->
+<header class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+  <div class="container-fluid">
+    <!-- Desktop/Tab View -->
+    <div class="laptop-view w-100 justify-content-between align-items-center">
+      <div class="d-flex align-items-center">
+        <a class="navbar-brand fw-bold" href="#">Admin Panel</a>
+        <!-- Desktop/Tab View Toggle -->
+        <button class="btn ms-2 tonggleStyle" id="sidebarToggleDesktop">
+          <i class="bi bi-list fs-4"></i>
+        </button>
+      </div>
+      <ul class="navbar-nav mb-2 mb-lg-0">
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link dropdown-toggle"
+            href="#"
+            id="userDropdown"
+            role="button"
+            data-bs-toggle="dropdown"
+          >
+            <i class="bi bi-person-circle fs-5"></i>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li><a class="dropdown-item" href="#">Profile</a></li>
+            <li><a class="dropdown-item" href="#">Settings</a></li>
+            <li><hr class="dropdown-divider" /></li>
+            <li>
+              <a class="dropdown-item text-danger" href="#">Logout</a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Mobile View -->
+    <div class="mobile-view">
+      <!-- Mobile View Toggle -->
+      <button class="btn tonggleStyle" id="sidebarToggleMobile">
+        <i class="bi bi-list fs-4"></i>
+      </button>
+      <a class="navbar-brand fw-bold" href="#">Admin Panel</a>
+      <div class="dropdown">
+        <a
+          class="nav-link dropdown-toggle text-white"
+          href="#"
+          id="userDropdownMobile"
+          role="button"
+          data-bs-toggle="dropdown"
+        >
+          <i class="bi bi-person-circle fs-5"></i>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end">
+          <li><a class="dropdown-item" href="#">Profile</a></li>
+          <li><a class="dropdown-item" href="#">Settings</a></li>
+          <li><hr class="dropdown-divider" /></li>
+          <li><a class="dropdown-item text-danger" href="#">Logout</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Sidebar -->
+<div class="sidebar">
+  <a href="#"><i class="bi bi-speedometer2"></i> Dashboard</a>
+  <a href="#" class="has-submenu"><i class="bi bi-person"></i> Users</a>
+  <div class="submenu collapse">
+    <a href="#">Add User</a>
+    <a href="#">User List</a>
+  </div>
+  <a href="#" class="has-submenu"><i class="bi bi-image"></i> Gallery</a>
+  <div class="submenu collapse">
+    <a href="#">Add Image</a>
+    <a href="#">Manage Images</a>
+  </div>
+  <a href="#"><i class="bi bi-gear"></i> Settings</a>
+  <a href="#"><i class="bi bi-envelope"></i> Messages</a>
+  <a href="#"><i class="bi bi-box-arrow-right"></i> Logout</a>
+</div>
+
+<script>
+  const body = document.body;
+  const desktopToggleBtn = document.getElementById("sidebarToggleDesktop");
+  const mobileToggleBtn = document.getElementById("sidebarToggleMobile");
+  let userToggled = false;
+
+  function applySidebarState() {
+    if (!userToggled) {
+      if (window.innerWidth < 992) {
+        body.classList.add("sidebar-collapsed");
+      } else {
+        body.classList.remove("sidebar-collapsed");
+      }
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    applySidebarState();
+
+    // 👉 Desktop toggle
+    desktopToggleBtn.addEventListener("click", function () {
+      body.classList.toggle("sidebar-collapsed");
+      userToggled = true;
+    });
+
+    // 👉 Mobile toggle
+    mobileToggleBtn.addEventListener("click", function () {
+      body.classList.toggle("sidebar-collapsed");
+      userToggled = true;
+    });
+
+    // 👉 Submenu toggle (optional)
+    document.querySelectorAll(".has-submenu").forEach((menu) => {
+      menu.addEventListener("click", (e) => {
+        e.preventDefault();
+        const nextSubmenu = menu.nextElementSibling;
+        if (nextSubmenu.classList.contains("collapse")) {
+          nextSubmenu.classList.toggle("show");
+        }
+      });
+    });
+  });
+
+  window.addEventListener("resize", applySidebarState);
+</script>

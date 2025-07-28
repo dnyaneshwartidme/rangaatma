@@ -1,0 +1,240 @@
+<!-- templates/materials_procure.html -->
+{% extends 'ms_admin/base.html' %} {% block title %}Materials Procure{% endblock
+%} {% block content %}
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.css"
+/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h5 class="text-primary">Materials Procure</h5>
+    <button
+      class="btn btn-success btn-sm"
+      data-bs-toggle="modal"
+      data-bs-target="#addModal"
+    >
+      + Add
+    </button>
+  </div>
+
+  <div class="form-check form-switch mb-3">
+    <input class="form-check-input" type="checkbox" id="enableSorting" />
+    <label class="form-check-label" for="enableSorting">Enable Sorting</label>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table table-bordered" id="materials_procureTable">
+      <thead class="table-light">
+        <tr>
+          <th>Sr.No</th>
+          <th>Image</th>
+          <th>Title</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="sortableList">
+        <!-- Inside tbody -->
+        {% for row in materials_procure_data %}
+        <tr data-id="{{ row.id }}">
+          <td>{{ loop.index }}</td>
+          <td>
+            <img src="{{ url_for('static', filename=row.img) }}" width="50" />
+          </td>
+          <td>{{ row.title }}</td>
+          <td>
+            <button
+              class="btn btn-sm btn-warning"
+              data-bs-toggle="modal"
+              data-bs-target="#editModal{{ row.id }}"
+            >
+              <i class="bi bi-pencil"></i>
+            </button>
+            <a
+              href="{{ url_for('delete_materials_procure', id=row.id) }}"
+              class="btn btn-sm btn-danger"
+              onclick="return confirm('Are you sure Delete?')"
+            >
+              <i class="bi bi-trash"></i>
+            </a>
+          </td>
+        </tr>
+
+        <!-- Edit Modal -->
+        <div class="modal fade" id="editModal{{ row.id }}" tabindex="-1">
+          <div class="modal-dialog">
+            <form
+              action="{{ url_for('update_materials_procure', id=row.id) }}"
+              method="POST"
+              enctype="multipart/form-data"
+              onsubmit="return validateEditImageSize({{ row.id }})"
+            >
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5>Edit</h5>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                  ></button>
+                </div>
+                <div class="modal-body">
+                  <input
+                    type="text"
+                    name="title"
+                    class="form-control mb-2"
+                    value="{{ row.title }}"
+                    required
+                  />
+                  <label>Current Image:</label><br />
+                  <img
+                    src="{{ url_for('static', filename=row.img) }}"
+                    width="100"
+                    class="mb-2"
+                  />
+                  <input
+                    type="file"
+                    name="img"
+                    class="form-control"
+                    id="editImg{{ row.id }}"
+                  />
+                  <div
+                    class="alert alert-danger mt-2 d-none"
+                    id="editAlert{{ row.id }}"
+                  >
+                    Image must be under 1MB.
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="submit" class="btn btn-primary btn-sm">
+                    Update
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Add Modal -->
+<div class="modal fade" id="addModal" tabindex="-1">
+  <div class="modal-dialog">
+    <form
+      action="{{ url_for('add_materials_procure') }}"
+      method="POST"
+      enctype="multipart/form-data"
+      onsubmit="return validateAddImageSize()"
+    >
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5>Add Materials Procure</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <input
+            type="text"
+            name="title"
+            class="form-control mb-2"
+            placeholder="Title"
+            required
+          />
+          <input
+            type="file"
+            name="img"
+            class="form-control"
+            id="addImg"
+            required
+          />
+          <div class="alert alert-danger mt-2 d-none" id="addAlert">
+            Image must be under 1MB.
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-success btn-sm">Add</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  let sortable = null;
+
+  document
+    .getElementById("enableSorting")
+    .addEventListener("change", function () {
+      if (this.checked) {
+        sortable = Sortable.create(document.getElementById("sortableList"), {
+          animation: 150,
+          onEnd: function () {
+            const order = [];
+            const rows = document.querySelectorAll("#sortableList tr");
+            rows.forEach((row, index) => {
+              // ✅ Update Sr. No. column instantly
+              row.querySelector("td:first-child").innerText = index + 1;
+
+              order.push({
+                id: row.getAttribute("data-id"),
+                sort_order: index + 1,
+              });
+            });
+
+            // ✅ Save new sort order to DB via AJAX
+            fetch("{{ url_for('update_materials_procure_order') }}", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(order),
+            });
+          },
+        });
+      } else {
+        if (sortable) sortable.destroy();
+      }
+    });
+</script>
+
+<script>
+  function validateAddImageSize() {
+    const fileInput = document.getElementById("addImg");
+    const alertBox = document.getElementById("addAlert");
+
+    if (fileInput.files.length > 0) {
+      const sizeMB = fileInput.files[0].size / 1024 / 1024;
+      if (sizeMB > 1) {
+        alertBox.classList.remove("d-none");
+        return false;
+      }
+    }
+    alertBox.classList.add("d-none");
+    return true;
+  }
+
+  function validateEditImageSize(id) {
+    const fileInput = document.getElementById("editImg" + id);
+    const alertBox = document.getElementById("editAlert" + id);
+
+    if (fileInput.files.length > 0) {
+      const sizeMB = fileInput.files[0].size / 1024 / 1024;
+      if (sizeMB > 1) {
+        alertBox.classList.remove("d-none");
+        return false;
+      }
+    }
+    alertBox.classList.add("d-none");
+    return true;
+  }
+</script>
+
+{% endblock %}

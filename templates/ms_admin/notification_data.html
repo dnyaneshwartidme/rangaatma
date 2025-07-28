@@ -1,0 +1,174 @@
+{% extends 'ms_admin/base.html' %} {% block title %}Notifications{% endblock %}
+{% block content %}
+
+<style>
+    .mail-item {
+        cursor: pointer;
+        border-bottom: 1px solid #ddd;
+        padding: 15px;
+        transition: background 0.3s;
+    }
+
+    .mail-item:hover {
+        background: #f8f9fa;
+    }
+
+    .mail-item.unread {
+        font-weight: 600;
+        background-color: #f0f0f0;
+    }
+
+    .mail-item.read {
+        font-weight: normal;
+        color: #6c757d;
+    }
+
+    .mail-subject {
+        font-size: 1rem;
+        font-weight: 500;
+    }
+
+    .mail-snippet {
+        font-size: 0.875rem;
+        color: #6c757d;
+    }
+
+    .unread {
+        font-weight: bold;
+        background-color: #f0f8ff;
+        border-left: 4px solid #0d6efd;
+    }
+
+    .read {
+        font-weight: normal;
+        background-color: #ffffff;
+        border-left: 4px solid #dee2e6;
+    }
+</style>
+
+<div class="container py-4">
+    <h3 class="mb-4 text-primary">📥 Inbox</h3>
+
+    {% for query in queries %}
+    <div class="mail-item {{ 'unread' if not query.is_read else 'read' }} d-flex justify-content-between align-items-center"
+     data-query-id="{{ query.id }}"
+     data-bs-toggle="modal"
+     data-bs-target="#mailModal{{ query.id }}">
+        <div>
+            <div><strong>{{ query.name }}</strong></div>
+            <div class="mail-snippet">
+                Service: {{ query.service }} 
+            </div>
+        </div>
+        <div class="text-muted small">
+            {{ query.submitted_at_ist.strftime("%I:%M:%p") }}
+        </div>
+    </div>
+
+    <!-- Modal View -->
+    <div class="modal fade" id="mailModal{{ query.id }}" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Contact Query - {{ query.name }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-body">
+                        <p><strong>Name:</strong> {{ query.name }}</p>
+                        <p><strong>Email:</strong> {{ query.email }}</p>
+                        <p><strong>Phone:</strong> {{ query.phone }}</p>
+                        <p><strong>Service:</strong> {{ query.service }}</p>
+                        <p><strong>Message:</strong> {{ query.message }}</p>
+                        <p>
+                            <strong>Date:</strong> {{
+                            query.submitted_at_ist.strftime("%d-%B-%Y").lstrip("0") }}
+                        </p>
+                        <p>
+                            <strong>Time:</strong> {{ query.submitted_at_ist.strftime("%I:%M
+                            %p") }}
+                        </p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-sm btn-primary" data-bs-toggle="modal"
+                        data-bs-target="#editModal{{ query.id }}" data-bs-dismiss="modal">
+                        Edit
+                    </button>
+                    <form method="POST" action="{{ url_for('delete_query', query_id=query.id) }}"
+                        onsubmit="return confirm('Are you sure you want to delete this Message?');">
+                        <button type="submit" class="btn btn-sm btn-danger">
+                            Delete
+                        </button>
+                    </form>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Edit -->
+    <div class="modal fade" id="editModal{{ query.id }}" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-lg">
+            <div class="modal-content">
+                <form method="POST" action="{{ url_for('edit_query', query_id=query.id) }}">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Edit Query - {{ query.name }}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label>Name</label><input type="text" name="name" value="{{ query.name }}"
+                                class="form-control" />
+                        </div>
+                        <div class="mb-3">
+                            <label>Email</label><input type="email" name="email" value="{{ query.email }}"
+                                class="form-control" />
+                        </div>
+                        <div class="mb-3">
+                            <label>Phone</label><input type="text" name="phone" value="{{ query.phone }}"
+                                class="form-control" />
+                        </div>
+                        <div class="mb-3">
+                            <label>Service</label><input type="text" name="service" value="{{ query.service }}"
+                                class="form-control" />
+                        </div>
+                        <div class="mb-3">
+                            <label>Message</label><textarea name="message" class="form-control">
+{{ query.message }}</textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">Save Changes</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.mail-item').forEach(item => {
+            item.addEventListener('click', function () {
+                const queryId = this.getAttribute('data-query-id');
+                fetch(`/mark-as-read/${queryId}`, {
+                    method: 'POST',
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                }).then(() => {
+                    this.classList.remove('unread');
+                    this.classList.add('read');
+                });
+            });
+        });
+    });
+</script>
+
+{% endblock %}

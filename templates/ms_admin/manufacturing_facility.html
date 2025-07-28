@@ -1,0 +1,236 @@
+{% extends 'ms_admin/base.html' %} {% block title %}Manufacturing Facility{%
+endblock %} {% block content %}
+
+<!-- Main Title Section -->
+<h5 class="mb-0 text-primary">Manufacturing Facility</h5>
+
+<div class="table-responsive mt-3">
+  <table class="table table-bordered table-hover">
+    <thead class="table-light">
+      <tr>
+        <th style="width: 80%">Main Title</th>
+        <th style="width: 20%">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>{{ main_title.main_title if main_title else '' }}</td>
+        <td>
+          <button
+            class="btn btn-warning btn-sm"
+            data-bs-toggle="modal"
+            data-bs-target="#editMainTitleModal"
+          >
+            <i class="bi bi-pencil-square"></i>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Edit Main Title Modal -->
+<div class="modal fade" id="editMainTitleModal" tabindex="-1">
+  <div class="modal-dialog">
+    <form method="POST" action="{{ url_for('update_main_title') }}">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Edit Main Title</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <textarea name="main_title" class="form-control" required>
+{{ main_title.main_title if main_title else '' }}</textarea
+          >
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary">Save</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Sub-Titles Section -->
+<div
+  class="d-flex justify-content-between align-items-center my-4 flex-wrap gap-2"
+>
+  <h6 class="mb-0">Sub Titles</h6>
+
+  <div class="d-flex align-items-center gap-3 flex-wrap">
+    <div class="d-flex align-items-center gap-2">
+      <input class="form-check-input" type="checkbox" id="sorting" />
+      <label for="sorting" class="form-check-label">Enable Sorting</label>
+    </div>
+
+    <button
+      class="btn btn-success btn-sm"
+      data-bs-toggle="modal"
+      data-bs-target="#addModal"
+    >
+      <i class="bi bi-plus-circle"></i> Add New
+    </button>
+  </div>
+</div>
+
+<!-- Main Content Table -->
+<div class="table-responsive mt-3">
+  <table class="table table-bordered align-middle">
+    <thead class="table-light">
+      <tr>
+        <th>Sr No</th>
+        <th>Title</th>
+        <th>Description</th>
+        <th style="width: 15%">Action</th>
+      </tr>
+    </thead>
+    <tbody id="sortable" class="handle">
+      {% for item in data %}
+      <tr data-id="{{ item.id }}">
+        <td class="sr-no">{{ loop.index }}</td>
+        <td>{{ item.title }}</td>
+        <td>{{ item.description }}</td>
+        <td>
+          <button
+            class="btn btn-warning btn-sm"
+            data-bs-toggle="modal"
+            data-bs-target="#editModal{{ item.id }}"
+          >
+            Edit
+          </button>
+          <form
+            action="{{ url_for('delete_facility', id=item.id) }}"
+            method="POST"
+            class="d-inline"
+          >
+            <button
+              class="btn btn-danger btn-sm"
+              onclick="return confirm('Delete this item?')"
+            >
+              Delete
+            </button>
+          </form>
+        </td>
+      </tr>
+
+      <!-- Edit Modal -->
+      <div class="modal fade" id="editModal{{ item.id }}" tabindex="-1">
+        <div class="modal-dialog">
+          <form
+            method="POST"
+            action="{{ url_for('edit_facility', id=item.id) }}"
+          >
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5>Edit Title</h5>
+                <button class="btn-close" data-bs-dismiss="modal"></button>
+              </div>
+              <div class="modal-body">
+                <input
+                  name="title"
+                  value="{{ item.title }}"
+                  class="form-control mb-2"
+                />
+                <textarea name="description" class="form-control">
+{{ item.description }}</textarea
+                >
+              </div>
+              <div class="modal-footer">
+                <button class="btn btn-primary">Update</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<div class="modal fade" id="addModal" tabindex="-1">
+  <div class="modal-dialog">
+    <form method="POST" action="{{ url_for('manufacturing_facility') }}">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5>Add New Title</h5>
+          <button class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <input name="title" class="form-control mb-2" placeholder="Title" />
+          <textarea
+            name="description"
+            class="form-control"
+            placeholder="Description"
+          ></textarea>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary">Add</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+<script>
+  let sortable = null;
+
+  document.getElementById("sorting").addEventListener("change", function () {
+    const tableBody = document.getElementById("sortable");
+
+    if (this.checked) {
+      sortable = new Sortable(tableBody, {
+        handle: ".handle",
+        animation: 150,
+        onEnd: function () {
+          const order = [];
+          document.querySelectorAll("#sortable tr").forEach((row, index) => {
+            order.push(parseInt(row.dataset.id)); // collect ID list
+
+            // ✅ Live update Sr No immediately
+            const srNoCell = row.querySelector(".sr-no");
+            if (srNoCell) {
+              srNoCell.textContent = index + 1;
+            }
+          });
+
+          // ✅ Send to server
+          fetch("{{ url_for('sort_facilities') }}", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ order: order }),
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              if (data.status === "success") {
+                console.log("Sort order saved.");
+              } else {
+                console.error("Error:", data.message);
+              }
+            })
+            .catch((error) => {
+              console.error("Fetch error:", error);
+            });
+        },
+      });
+    } else {
+      if (sortable) {
+        sortable.destroy();
+        sortable = null;
+      }
+    }
+  });
+</script>
+
+<style>
+  .handle {
+    cursor: move;
+    color: #6c757d;
+  }
+</style>
+
+{% endblock %}

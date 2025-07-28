@@ -1,0 +1,105 @@
+{% extends 'ms_admin/base.html' %} {% block title %}Co-Founder{% endblock %} {%
+block content %}
+
+<h5 class="text-primary mb-4">Co-Founder Desk</h5>
+
+<div class="row">
+  <div class="col-12">
+    <div
+      class="d-flex flex-column flex-md-row border rounded shadow-sm p-4 align-items-start justify-content-between"
+    >
+      <!-- Left Content -->
+      <div class="flex-fill me-md-4">
+        <h6 class="">Name: {{ co_founder.title }}</h6>
+        <h6 class="text-muted mb-3">Title: {{ co_founder.position }}</h6>
+        <p>{{ co_founder.description | replace('\n', '<br />') | safe }}</p>
+      </div>
+
+      <!-- Right Image & Edit -->
+      <div class="text-center mt-4 mt-md-0">
+        <img
+          src="{{ url_for('static', filename=co_founder.img1) }}"
+          class="img-fluid rounded"
+          style="max-width: 160px"
+        />
+        <br />
+        <button
+          class="btn btn-sm btn-primary mt-3"
+          data-bs-toggle="modal"
+          data-bs-target="#editCoFounderModal"
+        >
+          Edit
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Modal -->
+<div
+  class="modal fade"
+  id="editCoFounderModal"
+  tabindex="-1"
+  aria-labelledby="editCoFounderModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <form
+      method="POST"
+      action="{{ url_for('edit_co_founder', id=co_founder.id) }}"
+      enctype="multipart/form-data"
+      class="modal-content"
+    >
+      <div class="modal-header">
+        <h5 class="modal-title">Edit Co-Founder</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label>Name</label>
+          <input
+            type="text"
+            name="name"
+            class="form-control"
+            value="{{ co_founder.title }}"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label>Title</label>
+          <input
+            type="text"
+            name="position"
+            class="form-control"
+            value="{{ co_founder.position }}"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label>Description</label>
+          <textarea name="description" class="form-control" rows="4" required>
+{{ co_founder.description }}</textarea
+          >
+        </div>
+        <div class="mb-3">
+          <label>Current Image</label><br />
+          <img
+            src="{{ url_for('static', filename=co_founder.img1) }}"
+            width="100"
+            class="mb-2"
+          /><br />
+          <input type="file" name="image" class="form-control" />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-success">Save Changes</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+{% endblock %}

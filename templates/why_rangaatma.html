@@ -1,0 +1,95 @@
+{% extends 'base.html' %} {% block title %} About {% endblock title %} {% block
+body %}
+
+<!-- Hero Start -->
+<div class="container-fluid bg-primary py-5 bg-hero">
+  <div class="container py-5">
+    <div class="row justify-content-start">
+      <div class="col-lg-8 text-center text-lg-start">
+        <h1 class="display-1 text-blue">Why Rangaatma</h1>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Hero End -->
+
+<div
+  style="
+    background: url(../static/images/whyVaishnaviBg.png) top right no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    width: 100%;
+  "
+>
+  <section>
+    <div class="container-fluid">
+      <div class="container">
+        <div
+          class="text-center mx-auto mb-5"
+          style="max-width: 500px; padding-top: 50px"
+        >
+          <h4 class="display-5">Why Choose Rangaatma</h4>
+          <div class="d-flex">
+            <hr class="w-40 mx-auto" style="opacity: 1" />
+            <img
+              src="../static/images/sgnew.png"
+              alt="VAPL"
+              style="max-width: 45px"
+            />
+            <hr class="w-40 mx-auto" style="opacity: 1" />
+          </div>
+        </div>
+        <div class="row">
+          {% for item in items %}
+          <div class="col-lg-6 col-md-6 whyUsDiv">
+            <div class="whyUsLogo col-lg-5 col-md-5">
+              <img src="../static/images/{{ loop.index }}.png" alt="VAPL" />
+            </div>
+            <div class="whyUsText col-lg-7 col-md-7">
+              {% if item.title %}
+              <h4 class="text-blue">{{ item.title }}</h4>
+              {% endif %}
+              <p class="text-blue">{{ item.description }}</p>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- JS: Animate each time item enters viewport -->
+  <script>
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const el = entry.target;
+          if (entry.isIntersecting) {
+            el.classList.add(
+              "animate__animated",
+              "animate__fadeInUp",
+              "visible"
+            );
+          } else {
+            el.classList.remove(
+              "animate__animated",
+              "animate__fadeInUp",
+              "visible"
+            );
+          }
+        });
+      },
+      {
+        threshold: 0.1,
+      }
+    );
+
+    document.querySelectorAll(".whyUsDiv").forEach((el) => {
+      observer.observe(el);
+    });
+  </script>
+
+  <!-- Team End -->
+</div>
+
+{% endblock body %}

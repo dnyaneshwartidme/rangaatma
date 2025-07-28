@@ -1,0 +1,97 @@
+{% extends 'ms_admin/base.html' %} {% block content %}
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-10 col-lg-8">
+      <h2 class="mb-4 text-center">Change Email & Password</h2>
+
+      {% with messages = get_flashed_messages(with_categories=true) %} {% if
+      messages %} {% for category, message in messages %}
+      <div
+        class="alert alert-{{ category }} alert-dismissible fade show"
+        role="alert"
+      >
+        {{ message }}
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="alert"
+          aria-label="Close"
+        ></button>
+      </div>
+      {% endfor %} {% endif %} {% endwith %}
+
+      <div class="table-responsive">
+        <table class="table table-bordered mt-3 align-middle">
+          <thead class="table-light">
+            <tr>
+              <th>Email</th>
+              <th>Password</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{ config.email }}</td>
+              <td>********</td>
+              <td>
+                <button
+                  class="btn btn-sm btn-primary"
+                  data-bs-toggle="modal"
+                  data-bs-target="#editModal"
+                >
+                  Edit
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Modal -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <form method="POST" class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Edit Email & Password</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label class="form-label">Email</label>
+          <input
+            type="email"
+            name="email"
+            class="form-control"
+            value="{{ config.email }}"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Password</label>
+          <input
+            type="text"
+            name="password"
+            class="form-control"
+            value="{{ config.password }}"
+            required
+          />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-success">Save Changes</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Cancel
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

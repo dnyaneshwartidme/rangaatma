@@ -1,0 +1,46 @@
+{% extends 'base.html' %} {% block title %}capabilities {% endblock title %} {%
+block body %}
+
+<!-- Hero Start -->
+<div class="container-fluid py-5 bg-hero">
+  <div class="container py-5">
+    <div class="row justify-content-start">
+      <div class="col-lg-8 text-center text-lg-start">
+        <h1 class="display-1 text-blue">Capabilities</h1>
+        <!-- <p class="fs-4 text-dark mb-4">Top-tier mechanical solutions crafted with precision, ensuring durable, reliable performance and exceeding industry standards consistently.</p> -->
+        <div class="pt-2">
+          <!-- <a href="" class="btn btn-secondary rounded-pill py-md-3 px-md-5 mx-2">Read More</a> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-5">
+  <div class="row justify-content-start">
+    {% for item in capabilities %}
+    <div class="col-lg-3 col-md-3 col-sm-12 mt-4 mb-4">
+      <div class="d-flex align-items-center mb-4">
+        <img
+          src="{{ url_for('static', filename='images/sgnew.png') }}"
+          alt="VAPL"
+          style="margin-right: 5px; max-width: 45px"
+        />
+        <h4>{{ item.title }}</h4>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+<!-- JavaScript Libraries -->
+<script src="js/jquery-3.4.1.min.js"></script>
+<script src="js/bootstrap.bundle.min.js"></script>
+<script src="js/easing.min.js"></script>
+<script src="js/waypoints.min.js"></script>
+<script src="js/owl.carousel.min.js"></script>
+
+<!-- Template Javascript -->
+<script src="js/main.js"></script>
+
+{% endblock body %}

@@ -1,0 +1,595 @@
+{% extends 'base.html' %} {% block title %} Home {% endblock title %} {% block
+body %}
+
+<section>
+  <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      {% for item in carousel_data %}
+      <div class="carousel-item {% if loop.first %}active{% endif %}">
+        <img
+          src="{{ url_for('static', filename=item.img) }}"
+          class="d-block w-100 carousel-image carousel-zoom"
+          alt="Slide {{ loop.index }}"
+        />
+        <div class="carousel-caption text-start">
+          <h1
+            class="carousel-title animate__animated animate__fadeInDown animate__delay-1s"
+          >
+            {{ item.title }}
+          </h1>
+          <p
+            class="carousel-subtitle animate__animated animate__fadeInUp animate__delay-2s"
+          >
+            {{ item.subtitle }}
+          </p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <!-- Controls -->
+    <button
+      class="carousel-control-prev"
+      type="button"
+      data-bs-target="#heroCarousel"
+      data-bs-slide="prev"
+    >
+      <span
+        class="carousel-control-prev-icon custom-carousel-icon"
+        aria-hidden="true"
+      ></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button
+      class="carousel-control-next"
+      type="button"
+      data-bs-target="#heroCarousel"
+      data-bs-slide="next"
+    >
+      <span
+        class="carousel-control-next-icon custom-carousel-icon"
+        aria-hidden="true"
+      ></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+</section>
+
+<!-- Hero End -->
+
+<!-- About Start -->
+<section>
+  <!-- About Start -->
+  <div class="container-fluid">
+    <div class="container py-5">
+      <div class="text-center mx-auto mb-5" style="max-width: 500px">
+        <h4 class="display-6">Rangaatma Enterprises</h4>
+        <div class="d-flex">
+          <hr class="w-40 mx-auto" style="opacity: 1" />
+          <img
+            src="{{ url_for('static', filename='images/sgnew.png') }}"
+            alt="VAPL"
+            style="max-width: 45px"
+          />
+          <hr class="w-40 mx-auto" style="opacity: 1" />
+        </div>
+      </div>
+
+      {% if about_us %}
+      <div class="row gx-0 mb-3 mb-lg-0">
+        <div class="col-lg-6 my-lg-5 py-lg-5">
+          <div class="about-start bg-blue p-5">
+            <h1 class="display-5 mb-4 text-white">About US</h1>
+            <p class="text-white">{{ about_us.description }}</p>
+            <a href="about" class="text-end">Know More →</a>
+          </div>
+        </div>
+        <div class="col-lg-6" style="min-height: 400px">
+          <div class="position-relative h-100">
+            <img
+              class="position-absolute w-100 h-100"
+              src="{{ url_for('static', filename=about_us.img) }}"
+              style="object-fit: cover"
+            />
+          </div>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+  <!-- About End -->
+</section>
+<!-- About End -->
+
+<style>
+  .scroll-container {
+    display: flex;
+    overflow-x: auto;
+    gap: 30px;
+    scroll-behavior: smooth;
+    padding-bottom: 10px;
+  }
+
+  .scroll-container::-webkit-scrollbar {
+    height: 8px;
+  }
+
+  .scroll-container::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+  }
+
+  .scroll-container::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+
+  .scroll-item {
+    flex: 0 0 auto;
+    width: 250px;
+    text-align: center;
+  }
+
+  .scroll-item img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  @media (max-width: 576px) {
+    .scroll-item {
+      width: 200px;
+    }
+    .scroll-item img {
+      height: 200px;
+    }
+  }
+
+  @media (min-width: 1200px) {
+    .scroll-item {
+      width: 300px;
+    }
+    .scroll-item img {
+      height: 300px;
+    }
+  }
+  .scroll-container {
+    display: flex;
+    overflow-x: auto;
+    gap: 30px;
+    scroll-behavior: smooth;
+    padding-bottom: 10px;
+    cursor: grab; /* 👈 Show hand icon */
+    user-select: none;
+    -webkit-overflow-scrolling: touch; /* For iOS smooth scroll */
+  }
+</style>
+
+<!-- Our Products Start -->
+<!-- Our Products Start -->
+<section class="py-5 bg-light">
+  <div class="container">
+    <div class="text-center mx-auto mb-4" style="max-width: 500px">
+      <h4 class="display-5">Our Products</h4>
+      <div class="d-flex align-items-center justify-content-center gap-2">
+        <hr class="w-25 m-0 opacity-100" />
+        <img
+          src="../static/images/sgnew.png"
+          alt="VAPL"
+          style="max-width: 45px"
+        />
+        <hr class="w-25 m-0 opacity-100" />
+      </div>
+    </div>
+
+    <div class="scroll-container" id="productScroll">
+      {% for product in products %}
+      <div class="scroll-item">
+        <img
+          src="{{ url_for('static', filename=product.img) }}"
+          alt="{{ product.title }}"
+        />
+        <h6 class="mt-2">{{ product.title }}</h6>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+<!-- Our Products End -->
+
+<!-- Our Products End -->
+
+<!--Why Rangaatma start -->
+<section>
+  <div class="container-fluid">
+    <div class="container">
+      <div class="text-center mx-auto mb-5" style="max-width: 500px">
+        <h4 class="display-5">Why Rangaatma</h4>
+        <div class="d-flex">
+          <hr class="w-40 mx-auto" style="opacity: 1" />
+          <img
+            src="{{ url_for('static', filename='images/sgnew.png') }}"
+            alt="VAPL"
+            style="max-width: 45px"
+          />
+          <hr class="w-40 mx-auto" style="opacity: 1" />
+        </div>
+      </div>
+
+      {% if why_rangatma %}
+      <div class="row gx-0">
+        <div class="col-lg-6" style="min-height: 400px">
+          <div class="position-relative h-100">
+            <img
+              class="position-absolute w-100 h-100"
+              src="{{ url_for('static', filename=why_rangatma.img) }}"
+              style="object-fit: cover"
+            />
+          </div>
+        </div>
+        <div class="col-lg-6 my-lg-5 py-lg-5">
+          <div class="about-end bg-blue p-5">
+            <h1 class="display-5 mb-4 text-white">Why Rangaatma?</h1>
+            <p class="text-white">{{ why_rangatma.description }}</p>
+            <a href="why_rangaatma" class="text-end">Know More →</a>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<!-- Why Rangaatma End -->
+
+<!-- Industries We Serve -->
+<section style="background-color: #f8f9fa; padding: 80px 0">
+  <div class="text-center mx-auto" style="max-width: 600px">
+    <h4 class="display-5 fw-bold text-dark">Industries We Serve</h4>
+    <div class="d-flex align-items-center justify-content-center my-3">
+      <hr class="w-25" style="opacity: 1" />
+      <img
+        src="{{ url_for('static', filename='images/sgnew.png') }}"
+        alt="VAPL"
+        style="max-width: 45px; margin: 0 15px"
+      />
+      <hr class="w-25" style="opacity: 1" />
+    </div>
+  </div>
+
+  <div class="container mt-5">
+    <div class="row g-4">
+      {% for product in weserve %}
+      <div class="col-lg-4 col-md-6 col-sm-12 text-center fade-up">
+        <div class="industry-box p-3 shadow-sm bg-white rounded h-100">
+          <img
+            src="{{ url_for('static', filename=product.img) }}"
+            alt="{{ product.title | lower }} industry"
+            class="img-fluid industry-img"
+          />
+          <h5 class="mt-3 fw-semibold">{{ product.title }}</h5>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- Testimonial Start -->
+<section>
+  <div class="text-center mx-auto" style="max-width: 500px; margin: 90px 0 0">
+    <h4 class="display-5 mt-5">Testimonials</h4>
+    <div class="d-flex">
+      <hr class="w-40 mx-auto" style="opacity: 1" />
+      <img
+        src="{{ url_for('static', filename='images/sgnew.png') }}"
+        alt="VAPL"
+        style="max-width: 45px"
+      />
+      <hr class="w-40 mx-auto" style="opacity: 1" />
+    </div>
+  </div>
+
+  <div class="custom-shape-divider-top-1718187565">
+    <!-- SVG top wave -->
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 1200 120"
+      preserveAspectRatio="none"
+    >
+      <path
+        d="M0,0V7.23C0,65.52,268.63,112.77,600,112.77S1200,65.52,1200,7.23V0Z"
+        class="shape-fill"
+      ></path>
+    </svg>
+  </div>
+
+  <div class="bg-testimonial">
+    <div class="bg-testimonialOverly">
+      <div class="container-fluid py-5" style="margin: 15px 0">
+        <div class="container py-5">
+          <div class="row g-0 justify-content-end">
+            <div class="col-lg-6 bg-white bgTestimonial">
+              <div class="owl-carousel testimonial-carousel">
+                {% for item in testimonials %}
+                <div class="testimonial-item pt-3 pb-2">
+                  <p class="fw-normal" style="padding: 0px 33px">
+                    <i class="fa fa-quote-left text-secondary me-3"></i>
+                    {{ item.description }}
+                  </p>
+                  <div class="d-flex align-items-center">
+                    <div class="ps_margin">
+                      <h3>{{ item.title }}</h3>
+                      <!-- person's name -->
+                      <span class="text-uppercase">{{ item.subtitle }}</span>
+                      <!-- person's role -->
+                    </div>
+                  </div>
+                </div>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="custom-shape-divider-bottom-1718188138">
+    <!-- SVG bottom wave -->
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 1200 120"
+      preserveAspectRatio="none"
+    >
+      <path
+        d="M0,0V7.23C0,65.52,268.63,112.77,600,112.77S1200,65.52,1200,7.23V0Z"
+        class="shape-fill"
+      ></path>
+    </svg>
+  </div>
+  <!-- Testimonial End -->
+</section>
+
+<!-- Clients -->
+<section>
+  <div class="container-fluid mb-5">
+    <div class="container">
+      <div class="text-center mx-auto mb-5" style="max-width: 500px">
+        <h4 class="display-5">Our Clients</h4>
+        <div class="d-flex">
+          <hr class="w-40 mx-auto" style="opacity: 1" />
+          <img
+            src="../static/images/sgnew.png"
+            alt="VAPL"
+            style="max-width: 45px"
+          />
+          <hr class="w-40 mx-auto" style="opacity: 1" />
+        </div>
+      </div>
+
+      <!-- CSS Logo Slider -->
+      <div class="logo-slider">
+        <div class="logo-track">
+          {% for client in clients %}
+          <div class="logo-slide">
+            <img
+              src="{{ url_for('static', filename=client.img) }}"
+              alt="{{ client.name }}"
+            />
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Clients End -->
+
+<!-- Contact form Start -->
+<div class="contactbgColor bg-blue" style="margin: 90px 0; height: 225px"></div>
+<div class="container-fluid" style="margin-top: -317px">
+  <div class="container">
+    <div class="row g-0">
+      <div class="col-lg-6 col-md-6 contactDiv">
+        <h2 class="text-white contacth2" style="padding-top: 50px">
+          Feel Free To Contact Us
+        </h2>
+        <p class="text-white contactText" style="font-size: 18px">
+          Feel free to reach out to us at any time. Our team is ready to assist
+          you with any inquiries or concerns you may have.
+        </p>
+      </div>
+      <div
+        class="col-lg-6 col-md-6 justify-content-end"
+        id="contactForm"
+        style="
+          box-shadow:
+            rgba(50, 50, 93, 0.25) 0px 13px 27px -5px,
+            rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+        "
+      >
+        <div class="bg-white text-center p-5">
+          <h1 class="mb-4">Get A Quote</h1>
+          <!-- Contact Form -->
+          <div id="contactForm">
+            <form name="form" method="post">
+              <input type="hidden" name="redirectPage" value="index.php" />
+              <!-- reCAPTCHA v3 Hidden Input -->
+              <input
+                type="hidden"
+                name="g-recaptcha-response"
+                id="g-recaptcha-response"
+              />
+
+              <div class="row g-3">
+                <div class="col-12 col-sm-6">
+                  <input
+                    type="text"
+                    class="form-control bg-light"
+                    name="name"
+                    placeholder="Your Name"
+                    required
+                  />
+                </div>
+                <div class="col-12 col-sm-6">
+                  <input
+                    type="email"
+                    class="form-control bg-light"
+                    name="email"
+                    placeholder="Your Email"
+                    required
+                  />
+                </div>
+
+                <!-- Phone + Service in same row -->
+                <div class="col-12 col-sm-6">
+                  <input
+                    type="text"
+                    class="form-control bg-light"
+                    name="phone"
+                    placeholder="Your Phone Number"
+                    required
+                  />
+                </div>
+                <div class="col-12 col-sm-6">
+                  <select name="service" class="form-control bg-light" required>
+                    <option value="">Select Service</option>
+                    <option value="Diesel Fuel Injection Parts">
+                      Diesel Fuel Injection Parts
+                    </option>
+                    <option value="Connector">Connector</option>
+                    <option value="Bearings Parts">Bearings Parts</option>
+                    <option value="Throttle Shafts for MPFI">
+                      Throttle Shafts for MPFI
+                    </option>
+                    <option value="Spares for Four Wheelers">
+                      Spares for Four Wheelers
+                    </option>
+                    <option value="Fuel Separator Body">
+                      Fuel Separator Body
+                    </option>
+                    <option
+                      value="Carburetor Parts, Electrical Spares & Sensor Shell"
+                    >
+                      Carburetor Parts, Electrical Spares & Sensor Shell
+                    </option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+
+                <div class="col-12">
+                  <textarea
+                    class="form-control bg-light"
+                    rows="5"
+                    name="message"
+                    placeholder="Enter Your Message"
+                    required
+                  ></textarea>
+                </div>
+
+                <div class="col-lg-4 col-md-4 col-sm-12"></div>
+                <div class="col-lg-4 col-md-4 col-sm-12">
+                  <button class="btn btn-secondary w-30 py-2" type="submit">
+                    Send Message
+                  </button>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-12"></div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Contact form End -->
+
+<script>
+  const scrollContainer = document.getElementById("productScroll");
+
+  // Auto-scroll every 2 seconds
+  let scrollAmount = 0;
+  const itemWidth = document.querySelector(".scroll-item").offsetWidth + 16;
+  const delay = 2000;
+
+  function autoScroll() {
+    if (
+      scrollContainer.scrollLeft + scrollContainer.offsetWidth >=
+      scrollContainer.scrollWidth
+    ) {
+      scrollContainer.scrollLeft = 0;
+      scrollAmount = 0;
+    } else {
+      scrollAmount += itemWidth;
+      scrollContainer.scrollLeft = scrollAmount;
+    }
+  }
+
+  let scrollInterval = setInterval(autoScroll, delay);
+
+  // Pause auto-scroll on hover
+  scrollContainer.addEventListener("mouseenter", () =>
+    clearInterval(scrollInterval)
+  );
+  scrollContainer.addEventListener("mouseleave", () => {
+    scrollInterval = setInterval(autoScroll, delay);
+  });
+
+  // Manual swipe/drag scroll
+  let isDown = false;
+  let startX;
+  let scrollLeft;
+
+  scrollContainer.addEventListener("mousedown", (e) => {
+    isDown = true;
+    scrollContainer.classList.add("active");
+    startX = e.pageX - scrollContainer.offsetLeft;
+    scrollLeft = scrollContainer.scrollLeft;
+  });
+
+  scrollContainer.addEventListener("mouseleave", () => {
+    isDown = false;
+    scrollContainer.classList.remove("active");
+  });
+
+  scrollContainer.addEventListener("mouseup", () => {
+    isDown = false;
+    scrollContainer.classList.remove("active");
+  });
+
+  scrollContainer.addEventListener("mousemove", (e) => {
+    if (!isDown) return;
+    e.preventDefault();
+    const x = e.pageX - scrollContainer.offsetLeft;
+    const walk = (x - startX) * 1.5; // speed
+    scrollContainer.scrollLeft = scrollLeft - walk;
+  });
+</script>
+
+<script src="../static/js/owl.carousel.min.js"></script>
+<!-- ✅ Add this below it -->
+<script>
+  $(document).ready(function () {
+    $(".testimonial-carousel").owlCarousel({
+      loop: true,
+      margin: 10,
+      nav: false,
+      autoplay: true,
+      autoplayTimeout: 2000,
+      autoplayHoverPause: true,
+      items: 1,
+      dots: true,
+    });
+  });
+</script>
+
+<!-- jQuery (Required) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Owl Carousel JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+
+{% endblock body %}

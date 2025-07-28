@@ -1,0 +1,57 @@
+{% extends 'base.html' %} {% block title %} About {% endblock title %} {% block
+body %}
+
+<!-- Hero Start -->
+<div
+  class="container-fluid bg-primary py-5 bg-hero"
+  style="margin-bottom: 90px"
+>
+  <div class="container py-5">
+    <div class="row justify-content-start">
+      <div class="col-lg-8 text-center text-lg-start">
+        <h1 class="display-1 text-blue">Awards & Recognition</h1>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Hero End -->
+
+<!-- Achievements -->
+<div class="container-fluid">
+  <div class="container">
+    <div class="text-center mx-auto mb-5" style="max-width: 500px">
+      <h4 class="display-5">Our Achievements</h4>
+      <div class="d-flex align-items-center justify-content-center">
+        <hr class="w-40 mx-2" style="opacity: 1" />
+        <img
+          src="../static/images/sgnew.png"
+          alt="VAPL"
+          style="max-width: 45px"
+        />
+        <hr class="w-40 mx-2" style="opacity: 1" />
+      </div>
+    </div>
+
+    {% for item in items %}
+    <div
+      class="row align-items-center {% if loop.index is divisibleby 2 %}flex-lg-row-reverse{% endif %} mb-5"
+    >
+      <div class="col-lg-3 mb-3 mb-lg-0">
+        <img
+          src="../static/{{ item.img }}"
+          class="img-fluid rounded w-75"
+          alt="Award {{ loop.index }}"
+        />
+      </div>
+      <div class="col-lg-{{ 9 if loop.index == 1 else 8 }}">
+        <h5>{{ item.title }}</h5>
+        <p>{{ item.description }}</p>
+      </div>
+    </div>
+    <hr class="mb-3 mt-1" style="width: 100%; border-top: 3px solid #000" />
+    {% endfor %}
+  </div>
+</div>
+<!-- Achievements End -->
+
+{% endblock body %}

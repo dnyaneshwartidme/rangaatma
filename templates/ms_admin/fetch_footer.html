@@ -1,0 +1,447 @@
+{% extends 'ms_admin/base.html' %} {% block title %}Footer{% endblock %} {%
+block content %}
+
+<h4 class="text-primary mb-3">Footer Management</h4>
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+/>
+<!-- TEXT -->
+<div class="table-responsive mb-4">
+  <h5 class="text-secondary">Text</h5>
+  <table class="table table-bordered table-hover">
+    <thead class="table-warning">
+      <tr>
+        <th>Title</th>
+        <th style="width: 100px">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in text_data %}
+      <tr>
+        <td>{{ item.title }}</td>
+        <td>
+          <a
+            href="#"
+            class="btn btn-sm btn-primary"
+            data-bs-toggle="modal"
+            data-bs-target="#editTextModal{{ item.id }}"
+            >Edit</a
+          >
+        </td>
+      </tr>
+
+      <!-- Text Modal -->
+      <div
+        class="modal fade"
+        id="editTextModal{{ item.id }}"
+        tabindex="-1"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <form method="POST" action="/footer/update">
+            <input type="hidden" name="id" value="{{ item.id }}" />
+            <input type="hidden" name="type" value="text" />
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Edit Text</h5>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                ></button>
+              </div>
+              <div class="modal-body">
+                <div class="mb-3">
+                  <label class="form-label">Title</label>
+                  <textarea name="title" class="form-control" rows="2">
+                    {{ item.title }}</textarea
+                  >
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-success">Save</button>
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<!-- CONTACT -->
+<div class="table-responsive mb-4">
+  <h5 class="text-secondary">Contact</h5>
+  <table class="table table-bordered table-hover">
+    <thead class="table-info">
+      <tr>
+        <th>Address</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th style="width: 100px">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in contact_data %}
+      <tr>
+        <td>{{ item.address }}</td>
+        <td>{{ item.email }}</td>
+        <td>{{ item.phone }}</td>
+        <td>
+          <a
+            href="#"
+            class="btn btn-sm btn-primary"
+            data-bs-toggle="modal"
+            data-bs-target="#editContactModal{{ item.id }}"
+            >Edit</a
+          >
+        </td>
+      </tr>
+
+      <!-- Contact Modal -->
+      <div
+        class="modal fade"
+        id="editContactModal{{ item.id }}"
+        tabindex="-1"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <form method="POST" action="/footer/update">
+            <input type="hidden" name="id" value="{{ item.id }}" />
+            <input type="hidden" name="type" value="contact" />
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Edit Contact</h5>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                ></button>
+              </div>
+              <div class="modal-body">
+                <div class="mb-2">
+                  <label class="form-label">Address</label>
+                  <textarea name="address" class="form-control" required>
+{{ item.address }}</textarea
+                  >
+                </div>
+                <div class="mb-2">
+                  <label class="form-label">Email</label>
+                  <input
+                    type="email"
+                    name="email"
+                    class="form-control"
+                    value="{{ item.email }}"
+                    required
+                  />
+                </div>
+                <div class="mb-2">
+                  <label class="form-label">Phone</label>
+                  <input
+                    type="text"
+                    name="phone"
+                    class="form-control"
+                    value="{{ item.phone }}"
+                    required
+                  />
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-success">Save</button>
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<!-- QUICK LINKS -->
+<div class="table-responsive mb-4">
+  <h5 class="text-secondary">Quick Links</h5>
+  <table class="table table-bordered table-hover">
+    <thead class="table-light">
+      <tr>
+        <th>Title</th>
+        <th>Link</th>
+        <th style="width: 100px">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in quick_links %}
+      <tr>
+        <td>{{ item.title }}</td>
+        <td>{{ item.link }}</td>
+        <td>
+          <a
+            href="#"
+            class="btn btn-sm btn-primary"
+            data-bs-toggle="modal"
+            data-bs-target="#editQuickLinkModal{{ item.id }}"
+            >Edit</a
+          >
+        </td>
+      </tr>
+
+      <!-- Quick Link Modal -->
+      <div
+        class="modal fade"
+        id="editQuickLinkModal{{ item.id }}"
+        tabindex="-1"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <form method="POST" action="/footer/update">
+            <input type="hidden" name="id" value="{{ item.id }}" />
+            <input type="hidden" name="type" value="quick_links" />
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Edit Quick Link</h5>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                ></button>
+              </div>
+              <div class="modal-body">
+                <div class="mb-2">
+                  <label class="form-label">Title</label>
+                  <input
+                    type="text"
+                    name="title"
+                    class="form-control"
+                    value="{{ item.title }}"
+                    required
+                  />
+                </div>
+                <div class="mb-2">
+                  <label class="form-label">Link</label>
+                  <input
+                    type="text"
+                    name="link"
+                    class="form-control"
+                    value="{{ item.link }}"
+                    required
+                  />
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-success">Save</button>
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<!-- OUR SERVICES -->
+<div class="table-responsive mb-4">
+  <h5 class="text-secondary">Our Services</h5>
+  <table class="table table-bordered table-hover">
+    <thead class="table-success">
+      <tr>
+        <th>Title</th>
+        <th>Link</th>
+        <th style="width: 100px">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in our_services %}
+      <tr>
+        <td>{{ item.title }}</td>
+        <td>{{ item.link }}</td>
+        <td>
+          <a
+            href="#"
+            class="btn btn-sm btn-primary"
+            data-bs-toggle="modal"
+            data-bs-target="#editServiceModal{{ item.id }}"
+            >Edit</a
+          >
+        </td>
+      </tr>
+
+      <!-- Service Modal -->
+      <div
+        class="modal fade"
+        id="editServiceModal{{ item.id }}"
+        tabindex="-1"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <form method="POST" action="/footer/update">
+            <input type="hidden" name="id" value="{{ item.id }}" />
+            <input type="hidden" name="type" value="our_services" />
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Edit Service</h5>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                ></button>
+              </div>
+              <div class="modal-body">
+                <div class="mb-2">
+                  <label class="form-label">Title</label>
+                  <input
+                    type="text"
+                    name="title"
+                    class="form-control"
+                    value="{{ item.title }}"
+                    required
+                  />
+                </div>
+                <div class="mb-2">
+                  <label class="form-label">Link</label>
+                  <input
+                    type="text"
+                    name="link"
+                    class="form-control"
+                    value="{{ item.link }}"
+                    required
+                  />
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-success">Save</button>
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<!-- ALL ICONS -->
+<div class="table-responsive mb-4">
+  <h5 class="text-secondary">All Icons</h5>
+  <table class="table table-bordered table-hover">
+    <thead class="table-danger">
+      <tr>
+        <th>Icon</th>
+        <th>Link</th>
+        <th style="width: 100px">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in all_icons %}
+      <tr>
+        <td class="text-center">
+          <i class="{{ item.icon }} text-primary fs-4"></i>
+        </td>
+
+        <td>{{ item.link }}</td>
+        <td>
+          <a
+            href="#"
+            class="btn btn-sm btn-primary"
+            data-bs-toggle="modal"
+            data-bs-target="#editIconModal{{ item.id }}"
+            >Edit</a
+          >
+        </td>
+      </tr>
+
+      <!-- Icon Modal -->
+      <!-- Icon Modal -->
+      <div
+        class="modal fade"
+        id="editIconModal{{ item.id }}"
+        tabindex="-1"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <form method="POST" action="/footer/update">
+            <input type="hidden" name="id" value="{{ item.id }}" />
+            <input type="hidden" name="type" value="all_icon" />
+            <!-- or "our_services" if needed -->
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Edit Icon</h5>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                ></button>
+              </div>
+              <div class="modal-body">
+                <div class="mb-2">
+                  <label class="form-label">Icon Class</label>
+                  <input
+                    type="text"
+                    name="icon"
+                    class="form-control"
+                    value="{{ item.icon }}"
+                    required
+                  />
+                </div>
+                <div class="mb-2">
+                  <label class="form-label">Link</label>
+                  <input
+                    type="text"
+                    name="link"
+                    class="form-control"
+                    value="{{ item.link }}"
+                    required
+                  />
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-success">Save</button>
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% endblock %}
