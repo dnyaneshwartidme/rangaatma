@@ -10,7 +10,7 @@ body %}
     <div class="container py-5">
       <div class="row justify-content-start">
         <div class="col-lg-8 text-center text-lg-start">
-          <h1 class="display-1 text-blue">Founder's Desk</h1>
+          <h1 class="display-1 text-blue">Managing Director Desk's</h1>
         </div>
       </div>
     </div>
@@ -19,7 +19,7 @@ body %}
 </section>
 <section>
   <div class="container">
-    <h2 class="message-title mb-4">Founder's Desk</h2>
+    <h2 class="message-title mb-4">Managing Director</h2>
 
     <div class="message-card">
       <!-- Floating Image -->
@@ -31,7 +31,7 @@ body %}
 
       <!-- Text Content -->
       <div class="col-md-9 message-text">
-        <h6>{{ founder.position }}</h6>
+        <h6 class="pt-2">{{ founder.position }}</h6>
         {% for paragraph in founder.description.split('\n') %}
         <p>{{ paragraph.strip() }}</p>
         {% endfor %}

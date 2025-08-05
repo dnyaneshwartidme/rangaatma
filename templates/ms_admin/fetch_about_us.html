@@ -1,122 +1,141 @@
-{% extends 'ms_admin/base.html' %} {% block title %}About_us{% endblock %} {% block
-content %}
+{% extends 'ms_admin/base.html' %} {% block title %}About_us{% endblock %} {%
+block content %}
 <div class="container mt-4">
-<h5 class="text-primary">
+  <h5 class="text-primary">
     About Us & Our Competency & Vision & Mission & Core Values & Management Team
-</h5>
+  </h5>
 
-<!-- About Us -->
-<h5>About Us</h5>
-<div class="table-responsive">
-<table class="table table-bordered">
-    <tr>
+  <!-- About Us -->
+  <h5>About Us</h5>
+  <div class="table-responsive">
+    <table class="table table-bordered">
+      <tr>
         <th>Image 1</th>
         <th>Image 2</th>
         <th>Image 3</th>
         <th>Description</th>
         <th>Action</th>
-    </tr>
-    <tr>
+      </tr>
+      <tr>
         <td><img src="/static/{{ about_us.img1 }}" width="80" /></td>
         <td><img src="/static/{{ about_us.img2 }}" width="80" /></td>
         <td><img src="/static/{{ about_us.img3 }}" width="80" /></td>
         <td>{{ about_us.description }}</td>
         <td>
-            <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#editAboutUs">
-                Edit
-            </button>
+          <button
+            class="btn btn-sm btn-primary"
+            data-bs-toggle="modal"
+            data-bs-target="#editAboutUs"
+          >
+            Edit
+          </button>
         </td>
-    </tr>
-</table>
-</div>
+      </tr>
+    </table>
+  </div>
 
-
-<!-- Our Competency -->
-<h4>Our Competency</h4>
-<div class="table-responsive">
-<table class="table table-bordered">
-    <tr>
+  <!-- Our Competency -->
+  <h4>Our Competency</h4>
+  <div class="table-responsive">
+    <table class="table table-bordered">
+      <tr>
         <th>Title</th>
         <th>Description</th>
         <th>Action</th>
-    </tr>
-    {% for item in competency %}
-    <tr>
+      </tr>
+      {% for item in competency %}
+      <tr>
         <td>{{ item.title }}</td>
         <td>{{ item.description }}</td>
         <td>
-            <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#editCompetency{{ item.id }}">
-                Edit
-            </button>
+          <button
+            class="btn btn-sm btn-primary"
+            data-bs-toggle="modal"
+            data-bs-target="#editCompetency{{ item.id }}"
+          >
+            Edit
+          </button>
         </td>
-    </tr>
-    {% endfor %}
-</table>
-</div>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
 
-<!-- Vision -->
-<h4>Vision</h4>
-<div class="table-responsive">
-<table class="table table-bordered">
-    <tr>
+  <!-- Vision -->
+  <h4>Vision</h4>
+  <div class="table-responsive">
+    <table class="table table-bordered">
+      <tr>
         <th>Description</th>
         <th>Action</th>
-    </tr>
-    <tr>
+      </tr>
+      <tr>
         <td>{{ vision.description }}</td>
         <td>
-            <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#editVision">
-                Edit
-            </button>
+          <button
+            class="btn btn-sm btn-primary"
+            data-bs-toggle="modal"
+            data-bs-target="#editVision"
+          >
+            Edit
+          </button>
         </td>
-    </tr>
-</table>
-</div>
+      </tr>
+    </table>
+  </div>
 
-<!-- Mission -->
-<h4>Mission</h4>
-<div class="table-responsive">
-<table class="table table-bordered">
-    <tr>
+  <!-- Mission -->
+  <h4>Mission</h4>
+  <div class="table-responsive">
+    <table class="table table-bordered">
+      <tr>
         <th>Description</th>
         <th>Action</th>
-    </tr>
-    <tr>
+      </tr>
+      <tr>
         <td>{{ mission.description }}</td>
         <td>
-            <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#editMission">
-                Edit
-            </button>
+          <button
+            class="btn btn-sm btn-primary"
+            data-bs-toggle="modal"
+            data-bs-target="#editMission"
+          >
+            Edit
+          </button>
         </td>
-    </tr>
-</table>
-</div>
-
-<!-- ===== Core Values Table ===== -->
-<h4>Core Values</h4>
-<div class="table-responsive">
-    <table class="table table-bordered">
-        <tr>
-            <th>Title</th>
-            <th>Description</th>
-            <th>Action</th>
-        </tr>
-        {% for item in core_values %}
-        <tr>
-            <td>{{ item.title }}</td>
-            <td>{{ item.description }}</td>
-            <td>
-                <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#editCoreValue{{ item.id }}">
-                    Edit
-                </button>
-            </td>
-        </tr>
-        {% endfor %}
+      </tr>
     </table>
-</div>
+  </div>
 
-<!-- Management Team -->
-<h4>Management Team</h4>
+  <!-- ===== Core Values Table ===== -->
+  <h4>Core Values</h4>
+  <div class="table-responsive">
+    <table class="table table-bordered">
+      <tr>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Action</th>
+      </tr>
+      {% for item in core_values %}
+      <tr>
+        <td>{{ item.title }}</td>
+        <td>{{ item.description }}</td>
+        <td>
+          <button
+            class="btn btn-sm btn-primary"
+            data-bs-toggle="modal"
+            data-bs-target="#editCoreValue{{ item.id }}"
+          >
+            Edit
+          </button>
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+
+  <!-- Management Team -->
+  <!-- <h4>Management Team</h4>
 <div class="table-responsive">
 <table class="table table-bordered">
     <tr>
@@ -139,219 +158,325 @@ content %}
     </tr>
 </table>
 </div>
-</div>
+</div> -->
 
-<!-- ===== Edit About Us Modal ===== -->
-<div class="modal fade" id="editAboutUs" tabindex="-1" aria-labelledby="editAboutUsLabel" aria-hidden="true">
+  <!-- ===== Edit About Us Modal ===== -->
+  <div
+    class="modal fade"
+    id="editAboutUs"
+    tabindex="-1"
+    aria-labelledby="editAboutUsLabel"
+    aria-hidden="true"
+  >
     <div class="modal-dialog modal-lg modal-dialog-scrollable">
-        <form method="POST" action="{{ url_for('update_about_us') }}" enctype="multipart/form-data"
-            class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Edit About Us</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      <form
+        method="POST"
+        action="{{ url_for('update_about_us') }}"
+        enctype="multipart/form-data"
+        class="modal-content"
+      >
+        <div class="modal-header">
+          <h5 class="modal-title">Edit About Us</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+          ></button>
+        </div>
+        <div class="modal-body row">
+          <input type="hidden" name="type" value="about_us" />
+          <div class="mb-3 col-md-4">
+            <label>Image 1</label>
+            <div class="mb-3">
+              <label>Upload Image (Max 1MB)</label>
+              <input type="file" name="img1" class="form-control" />
             </div>
-            <div class="modal-body row">
-                <input type="hidden" name="type" value="about_us" />
-                <div class="mb-3 col-md-4">
-                    <label>Image 1</label>
-                    <div class="mb-3">
-                        <label>Upload Image (Max 1MB)</label>
-                        <input type="file" name="img1" class="form-control" />
-                    </div>
-
-                </div>
-                <div class="mb-3 col-md-4">
-                    <label>Image 2</label>
-                    <div class="mb-3">
-                        <label>Upload Image (Max 1MB)</label>
-                        <input type="file" name="img2" class="form-control" />
-                    </div>
-
-                </div>
-                <div class="mb-3 col-md-4">
-                    <label>Image 3</label>
-                    <div class="mb-3">
-                        <label>Upload Image (Max 1MB)</label>
-                        <input type="file" name="img3" class="form-control" />
-                    </div>
-
-                </div>
-                <div class="mb-3 col-12">
-                    <label>Description</label>
-                    <textarea name="description" class="form-control" rows="4">
-{{ about_us.description }}</textarea>
-                </div>
+          </div>
+          <div class="mb-3 col-md-4">
+            <label>Image 2</label>
+            <div class="mb-3">
+              <label>Upload Image (Max 1MB)</label>
+              <input type="file" name="img2" class="form-control" />
             </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-success">Save Changes</button>
+          </div>
+          <div class="mb-3 col-md-4">
+            <label>Image 3</label>
+            <div class="mb-3">
+              <label>Upload Image (Max 1MB)</label>
+              <input type="file" name="img3" class="form-control" />
             </div>
-        </form>
+          </div>
+          <div class="mb-3 col-12">
+            <label>Description</label>
+            <textarea name="description" class="form-control" rows="4">
+{{ about_us.description }}</textarea
+            >
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-success">Save Changes</button>
+        </div>
+      </form>
     </div>
-</div>
+  </div>
 
-<!-- ===== Edit Competency Modal ===== -->
-{% for item in competency %}
-<!-- ===== Edit Modal for {{ item.title }} ===== -->
-<div class="modal fade" id="editCompetency{{ item.id }}" tabindex="-1"
-    aria-labelledby="editCompetencyLabel{{ item.id }}" aria-hidden="true">
+  <!-- ===== Edit Competency Modal ===== -->
+  {% for item in competency %}
+  <!-- ===== Edit Modal for {{ item.title }} ===== -->
+  <div
+    class="modal fade"
+    id="editCompetency{{ item.id }}"
+    tabindex="-1"
+    aria-labelledby="editCompetencyLabel{{ item.id }}"
+    aria-hidden="true"
+  >
     <div class="modal-dialog">
-        <form method="POST" action="{{ url_for('update_about_us') }}" class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Edit Competency</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <input type="hidden" name="type" value="competency" />
-                <input type="hidden" name="id" value="{{ item.id }}" />
-                <div class="mb-3">
-                    <label>Title</label>
-                    <input type="text" name="title" value="{{ item.title }}" class="form-control" />
-                </div>
-                <div class="mb-3">
-                    <label>Description</label>
-                    <textarea name="description" class="form-control" rows="4">{{ item.description }}</textarea>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-success">Save Changes</button>
-            </div>
-        </form>
+      <form
+        method="POST"
+        action="{{ url_for('update_about_us') }}"
+        class="modal-content"
+      >
+        <div class="modal-header">
+          <h5 class="modal-title">Edit Competency</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" name="type" value="competency" />
+          <input type="hidden" name="id" value="{{ item.id }}" />
+          <div class="mb-3">
+            <label>Title</label>
+            <input
+              type="text"
+              name="title"
+              value="{{ item.title }}"
+              class="form-control"
+            />
+          </div>
+          <div class="mb-3">
+            <label>Description</label>
+            <textarea name="description" class="form-control" rows="4">
+{{ item.description }}</textarea
+            >
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-success">Save Changes</button>
+        </div>
+      </form>
     </div>
-</div>
-{% endfor %}
+  </div>
+  {% endfor %}
 
-
-<!-- ===== Edit Vision Modal ===== -->
-<div class="modal fade" id="editVision" tabindex="-1" aria-labelledby="editVisionLabel" aria-hidden="true">
+  <!-- ===== Edit Vision Modal ===== -->
+  <div
+    class="modal fade"
+    id="editVision"
+    tabindex="-1"
+    aria-labelledby="editVisionLabel"
+    aria-hidden="true"
+  >
     <div class="modal-dialog">
-        <form method="POST" action="{{ url_for('update_about_us') }}" class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Edit Vision</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <input type="hidden" name="type" value="vision" />
-                <div class="mb-3">
-                    <label>Description</label>
-                    <textarea name="description" class="form-control" rows="4">
-{{ vision.description }}</textarea>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-success">Save Changes</button>
-            </div>
-        </form>
+      <form
+        method="POST"
+        action="{{ url_for('update_about_us') }}"
+        class="modal-content"
+      >
+        <div class="modal-header">
+          <h5 class="modal-title">Edit Vision</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" name="type" value="vision" />
+          <div class="mb-3">
+            <label>Description</label>
+            <textarea name="description" class="form-control" rows="4">
+{{ vision.description }}</textarea
+            >
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-success">Save Changes</button>
+        </div>
+      </form>
     </div>
-</div>
+  </div>
 
-<!-- ===== Edit Mission Modal ===== -->
-<div class="modal fade" id="editMission" tabindex="-1" aria-labelledby="editMissionLabel" aria-hidden="true">
+  <!-- ===== Edit Mission Modal ===== -->
+  <div
+    class="modal fade"
+    id="editMission"
+    tabindex="-1"
+    aria-labelledby="editMissionLabel"
+    aria-hidden="true"
+  >
     <div class="modal-dialog">
-        <form method="POST" action="{{ url_for('update_about_us') }}" class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Edit Mission</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <input type="hidden" name="type" value="mission" />
-                <div class="mb-3">
-                    <label>Description</label>
-                    <textarea name="description" class="form-control" rows="4">
-{{ mission.description }}</textarea>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-success">Save Changes</button>
-            </div>
-        </form>
+      <form
+        method="POST"
+        action="{{ url_for('update_about_us') }}"
+        class="modal-content"
+      >
+        <div class="modal-header">
+          <h5 class="modal-title">Edit Mission</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" name="type" value="mission" />
+          <div class="mb-3">
+            <label>Description</label>
+            <textarea name="description" class="form-control" rows="4">
+{{ mission.description }}</textarea
+            >
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-success">Save Changes</button>
+        </div>
+      </form>
     </div>
-</div>
+  </div>
 
-<!-- ===== Edit Core Values ===== -->
-{% for item in core_values %}
-<!-- ===== Edit Modal for {{ item.title }} ===== -->
-<div class="modal fade" id="editCoreValue{{ item.id }}" tabindex="-1"
-    aria-labelledby="editCoreValueLabel{{ item.id }}" aria-hidden="true">
+  <!-- ===== Edit Core Values ===== -->
+  {% for item in core_values %}
+  <!-- ===== Edit Modal for {{ item.title }} ===== -->
+  <div
+    class="modal fade"
+    id="editCoreValue{{ item.id }}"
+    tabindex="-1"
+    aria-labelledby="editCoreValueLabel{{ item.id }}"
+    aria-hidden="true"
+  >
     <div class="modal-dialog">
-        <form method="POST" action="{{ url_for('update_about_us') }}" class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Edit Core Value</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <input type="hidden" name="type" value="core_value" />
-                <input type="hidden" name="id" value="{{ item.id }}" />
-                <div class="mb-3">
-                    <label>Title</label>
-                    <input type="text" name="title" value="{{ item.title }}" class="form-control" />
-                </div>
-                <div class="mb-3">
-                    <label>Description</label>
-                    <textarea name="description" class="form-control" rows="4">{{ item.description }}</textarea>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-success">Save Changes</button>
-            </div>
-        </form>
+      <form
+        method="POST"
+        action="{{ url_for('update_about_us') }}"
+        class="modal-content"
+      >
+        <div class="modal-header">
+          <h5 class="modal-title">Edit Core Value</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" name="type" value="core_value" />
+          <input type="hidden" name="id" value="{{ item.id }}" />
+          <div class="mb-3">
+            <label>Title</label>
+            <input
+              type="text"
+              name="title"
+              value="{{ item.title }}"
+              class="form-control"
+            />
+          </div>
+          <div class="mb-3">
+            <label>Description</label>
+            <textarea name="description" class="form-control" rows="4">
+{{ item.description }}</textarea
+            >
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-success">Save Changes</button>
+        </div>
+      </form>
     </div>
-</div>
-{% endfor %}
+  </div>
+  {% endfor %}
 
-<!-- ===== Edit Management Team Modal ===== -->
-<div class="modal fade" id="editManagement" tabindex="-1" aria-labelledby="editManagementLabel" aria-hidden="true">
+  <!-- ===== Edit Management Team Modal ===== -->
+  <div
+    class="modal fade"
+    id="editManagement"
+    tabindex="-1"
+    aria-labelledby="editManagementLabel"
+    aria-hidden="true"
+  >
     <div class="modal-dialog modal-lg">
-        <form method="POST" action="{{ url_for('update_about_us') }}" enctype="multipart/form-data"
-            class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Edit Management Team</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      <form
+        method="POST"
+        action="{{ url_for('update_about_us') }}"
+        enctype="multipart/form-data"
+        class="modal-content"
+      >
+        <div class="modal-header">
+          <h5 class="modal-title">Edit Management Team</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+          ></button>
+        </div>
+        <div class="modal-body row">
+          <input type="hidden" name="type" value="management_team" />
+          <div class="mb-3 col-md-6">
+            <label>Title</label>
+            <input
+              type="text"
+              name="title"
+              value="{{ management.title }}"
+              class="form-control"
+            />
+          </div>
+          <div class="mb-3 col-md-6">
+            <label>Position</label>
+            <input
+              type="text"
+              name="position"
+              value="{{ management.position }}"
+              class="form-control"
+            />
+          </div>
+          <div class="mb-3 col-12">
+            <label>Image</label>
+            <div class="mb-3">
+              <label>Upload Image (Max 1MB)</label>
+              <input type="file" name="img1" class="form-control" />
             </div>
-            <div class="modal-body row">
-                <input type="hidden" name="type" value="management_team" />
-                <div class="mb-3 col-md-6">
-                    <label>Title</label>
-                    <input type="text" name="title" value="{{ management.title }}" class="form-control" />
-                </div>
-                <div class="mb-3 col-md-6">
-                    <label>Position</label>
-                    <input type="text" name="position" value="{{ management.position }}" class="form-control" />
-                </div>
-                <div class="mb-3 col-12">
-                    <label>Image</label>
-                    <div class="mb-3">
-                        <label>Upload Image (Max 1MB)</label>
-                        <input type="file" name="img1" class="form-control" />
-                    </div>
-
-                </div>
-                <div class="mb-3 col-12">
-                    <label>Description</label>
-                    <textarea name="description" class="form-control" rows="4">
-{{ management.description }}</textarea>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-success">Save Changes</button>
-            </div>
-        </form>
+          </div>
+          <div class="mb-3 col-12">
+            <label>Description</label>
+            <textarea name="description" class="form-control" rows="4">
+{{ management.description }}</textarea
+            >
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-success">Save Changes</button>
+        </div>
+      </form>
     </div>
-</div>
+  </div>
 </div>
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const fileInputs = document.querySelectorAll('input[type="file"]');
+  document.addEventListener("DOMContentLoaded", function () {
+    const fileInputs = document.querySelectorAll('input[type="file"]');
 
-        fileInputs.forEach(function (input) {
-            input.addEventListener("change", function () {
-                const file = input.files[0];
-                if (file && file.size > 1024 * 1024) { // 1MB = 1024*1024 bytes
-                    alert("File size must be less than 1MB!");
-                    input.value = ""; // reset the file
-                }
-            });
-        });
+    fileInputs.forEach(function (input) {
+      input.addEventListener("change", function () {
+        const file = input.files[0];
+        if (file && file.size > 1024 * 1024) {
+          // 1MB = 1024*1024 bytes
+          alert("File size must be less than 1MB!");
+          input.value = ""; // reset the file
+        }
+      });
     });
+  });
 </script>
 
 {% endblock %}

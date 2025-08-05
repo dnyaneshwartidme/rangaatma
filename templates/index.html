@@ -516,12 +516,12 @@ body %}
   const delay = 2000;
 
   function autoScroll() {
-    if (
-      scrollContainer.scrollLeft + scrollContainer.offsetWidth >=
-      scrollContainer.scrollWidth
-    ) {
+    const maxScrollLeft =
+      scrollContainer.scrollWidth - scrollContainer.clientWidth;
+
+    if (scrollContainer.scrollLeft >= maxScrollLeft) {
       scrollContainer.scrollLeft = 0;
-      scrollAmount = 0;
+      scrollAmount = 0; // ✅ Reset scrollAmount
     } else {
       scrollAmount += itemWidth;
       scrollContainer.scrollLeft = scrollAmount;
