@@ -2000,14 +2000,14 @@ def delete_unused_photos():
 # ..............................
 
 
-
-# if __name__ == '__main__':
-#     with app.app_context(): 
-#         db.create_all()
-#     app.run(debug=True)
-
-
-# Only for local development (OPTIONAL)
+# local server use 
 if __name__ == '__main__':
-    with app.app_context():
+    with app.app_context(): 
         db.create_all()
+    app.run(debug=True)
+
+
+# Only for live server (OPTIONAL)
+# if __name__ == '__main__':
+#     with app.app_context():
+#         db.create_all()
