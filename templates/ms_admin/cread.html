@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>User Table - Single Row</title>
+    <style>
+      :root {
+        --radius: 14px;
+      }
+      body {
+        font-family:
+          system-ui,
+          -apple-system,
+          Segoe UI,
+          Roboto,
+          Arial,
+          sans-serif;
+        margin: 0;
+        background: #f6f7f9;
+        color: #111;
+      }
+      .wrap {
+        max-width: 900px;
+        margin: 40px auto;
+        padding: 0 16px;
+      }
+      .card {
+        background: #fff;
+        border-radius: var(--radius);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+        overflow: hidden;
+      }
+      .card h1 {
+        font-size: 18px;
+        margin: 0;
+        padding: 16px 20px;
+        border-bottom: 1px solid #eee;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      thead th {
+        text-align: left;
+        font-weight: 600;
+        background: #fafafa;
+        border-bottom: 1px solid #eee;
+        padding: 12px 16px;
+      }
+      tbody td {
+        border-bottom: 1px solid #f0f0f0;
+        padding: 12px 16px;
+      }
+      tbody tr:last-child td {
+        border-bottom: 0;
+      }
+
+      .btn {
+        appearance: none;
+        border: 0;
+        background: #0a66c2;
+        color: #fff;
+        padding: 8px 14px;
+        border-radius: 999px;
+        cursor: pointer;
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-block;
+      }
+      .btn:focus {
+        outline: 2px solid #9fd0ff;
+        outline-offset: 2px;
+      }
+      .muted {
+        color: #666;
+      }
+
+      /* Responsive: stack cells with labels on small screens */
+      @media (max-width: 640px) {
+        thead {
+          display: none;
+        }
+        table,
+        tbody,
+        tr,
+        td {
+          display: block;
+          width: 100%;
+        }
+        tr {
+          border-bottom: 1px solid #eee;
+        }
+        td {
+          position: relative;
+          padding: 10px 16px 10px 120px;
+        }
+        td::before {
+          content: attr(data-label);
+          position: absolute;
+          left: 16px;
+          top: 10px;
+          width: 100px;
+          font-weight: 600;
+          color: #444;
+        }
+        .btn {
+          width: 100%;
+          text-align: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="card">
+        <h1>User (1 row)</h1>
+        <table aria-label="User table">
+          <thead>
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Username</th>
+              <th scope="col">Password</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td data-label="ID">1</td>
+              <td data-label="Username">john_doe</td>
+              <td data-label="Password"><span class="muted">••••••••</span></td>
+              <td data-label="Action">
+                <a class="btn" href="#edit" aria-label="Edit user 1">Edit</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </body>
+</html>

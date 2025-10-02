@@ -1846,9 +1846,9 @@ def sort_culture_points():
 
 
 
-
-
-
+@app.route('/cread', methods=['GET', 'POST'])
+def cread():  
+    return render_template('ms_admin/cread.html')
 
 
 # footer page 
@@ -2001,13 +2001,13 @@ def delete_unused_photos():
 
 
 # local server use 
-# if __name__ == '__main__':
-#     with app.app_context(): 
-#         db.create_all()
-#     app.run(debug=True)
+if __name__ == '__main__':
+    with app.app_context(): 
+        db.create_all()
+    app.run(debug=True)
 
 
 # Only for live server (OPTIONAL)
-if __name__ == '__main__':
-    with app.app_context():
-        db.create_all()
+# if __name__ == '__main__':
+#     with app.app_context():
+#         db.create_all()
